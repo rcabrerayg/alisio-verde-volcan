@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metamorfosis — Alisio Hydro × Verde Volcán</title>
+<meta name="description" content="Una gota se hace hoja; la hoja, volcán. Hidroponía NFT en las Islas Canarias.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Hanken+Grotesk:wght@300;400;500;600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   V3 · METAMORFOSIS — escultura de partículas
+   Una gota → una hoja → un volcán. 14.000 partículas, un scroll.
+   Sistema: Terroir Técnico (design-system/tokens.css)
+   ============================================================ */
+:root{
+  --basalto:#161A14; --basalto-2:#20251D;
+  --papel:#F2EFE6; --papel-2:#E9E4D6;
+  --ceniza:#8A8B7F; --humo:#41463C;
+  --alisio-900:#0F3543; --alisio-500:#2E7D96; --alisio-300:#7FC4D8;
+  --volcan-900:#1F4422; --volcan-500:#4E8A3F; --brote:#C8E64B;
+  --lava:#D9542B;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'Hanken Grotesk',-apple-system,sans-serif;
+  --font-mono:'Fragment Mono','SF Mono',monospace;
+  --ease-alisio:cubic-bezier(0.22,1,0.36,1);
+  --margin-page:clamp(1.25rem,5vw,6rem);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--basalto); color:var(--papel); font-family:var(--font-body);
+  font-size:1.0625rem; line-height:1.6; font-weight:300;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden}
+::selection{background:var(--brote); color:var(--basalto)}
+img{display:block; max-width:100%}
+
+#escena{position:fixed; inset:0; z-index:0; display:block}
+body.no3d #escena{display:none}
+body.no3d{background:radial-gradient(120% 90% at 50% 110%, #1d2a18 0%, var(--basalto) 60%)}
+
+body::after{content:""; position:fixed; inset:0; z-index:999; pointer-events:none;
+  opacity:.05; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* etiqueta de fase de la metamorfosis */
+.fase{position:fixed; left:var(--margin-page); bottom:1.4rem; z-index:90;
+  font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ceniza); display:flex; gap:.7rem; align-items:center}
+.fase::before{content:""; width:.5rem; height:.5rem; border-radius:50%; background:var(--alisio-300);
+  transition:background .6s}
+.fase[data-f="1"]::before{background:var(--brote)}
+.fase[data-f="2"]::before{background:var(--lava)}
+@media(max-width:700px){.fase{display:none}}
+
+.progreso{position:fixed; top:0; left:0; right:0; height:2px; z-index:300}
+.progreso i{display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--alisio-300),var(--brote),var(--lava))}
+
+.eyebrow{font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase;
+  letter-spacing:.14em; color:var(--brote); display:flex; align-items:center; gap:.75rem}
+.eyebrow::before{content:""; width:2rem; height:1px; background:currentColor; opacity:.6}
+h1,h2,h3{font-family:var(--font-display); font-weight:470; line-height:1.04; letter-spacing:-0.015em; text-wrap:balance}
+.italica{font-style:italic; font-variation-settings:'SOFT' 60,'WONK' 1; font-weight:420}
+.dato{font-family:var(--font-mono); font-variant-numeric:tabular-nums}
+
+html.js .reveal{opacity:0; transform:translateY(28px);
+  transition:opacity .9s var(--ease-alisio), transform .9s var(--ease-alisio);
+  transition-delay:calc(var(--stagger,0)*100ms)}
+html.js .reveal.is-visible{opacity:1; transform:none}
+html.js .palabra{display:inline-block; overflow:hidden; vertical-align:bottom}
+html.js .palabra i{display:inline-block; font-style:inherit; transform:translateY(110%);
+  transition:transform 1s var(--ease-alisio) calc(var(--stagger,0)*120ms)}
+html.js .palabra.is-visible i{transform:none}
+
+.nav{position:fixed; top:2px; left:0; right:0; z-index:100; display:flex;
+  justify-content:space-between; align-items:center; padding:1.1rem var(--margin-page)}
+.nav__brand{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--papel); text-decoration:none}
+.nav__brand em{font-style:normal; color:var(--brote)}
+.btn{display:inline-flex; align-items:center; gap:.6rem; font-family:var(--font-mono);
+  font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; text-decoration:none;
+  padding:.7rem 1.3rem; border-radius:2px; transition:all .22s var(--ease-alisio)}
+.btn--brote{background:var(--brote); color:var(--basalto) !important}
+.btn--brote:hover{background:#d6f06a}
+.btn--ghost{border:1px solid color-mix(in srgb, var(--papel) 35%, transparent); color:var(--papel) !important}
+.btn--ghost:hover{background:var(--papel); color:var(--basalto) !important; border-color:var(--papel)}
+@media(max-width:700px){
+  .nav{padding:.9rem 1.1rem}
+  .nav__brand{font-size:.58rem}
+  .nav .btn{padding:.5rem .8rem; font-size:.58rem}
+}
+
+.hitos{position:fixed; right:1.2rem; top:50%; transform:translateY(-50%); z-index:90;
+  display:flex; flex-direction:column; gap:1.1rem}
+.hitos a{width:7px; height:7px; border-radius:50%; border:1px solid var(--ceniza);
+  display:block; transition:all .3s var(--ease-alisio)}
+.hitos a.act{background:var(--brote); border-color:var(--brote); transform:scale(1.35)}
+@media(max-width:900px){.hitos{display:none}}
+
+.cap{min-height:100svh; display:flex; align-items:center; position:relative; z-index:1;
+  padding:6rem var(--margin-page)}
+.cap__inner{max-width:1280px; margin:0 auto; width:100%}
+
+.cap--hero{align-items:flex-end; padding-bottom:5rem}
+.cap--hero h1{font-size:clamp(3rem,9vw,7.6rem); line-height:.97; max-width:13ch}
+.cap--hero h1 .azul{color:var(--alisio-300)}
+.cap--hero h1 .verde{color:var(--brote)}
+.cap--hero h1 .rojo{color:var(--lava)}
+.cap--hero .sub{max-width:42ch; color:var(--ceniza); margin-top:2rem; font-size:1.12rem}
+.cap--hero .cta{display:flex; gap:1rem; margin-top:2.6rem; flex-wrap:wrap}
+.cap--hero .scrollcue{position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
+  font-family:var(--font-mono); font-size:.6rem; letter-spacing:.18em; color:var(--ceniza);
+  text-transform:uppercase; display:flex; flex-direction:column; align-items:center; gap:.6rem}
+.cap--hero .scrollcue::after{content:""; width:1px; height:2.6rem;
+  background:linear-gradient(var(--brote),transparent); animation:cae 2s var(--ease-alisio) infinite}
+@keyframes cae{0%{transform:scaleY(0); transform-origin:top}45%{transform:scaleY(1); transform-origin:top}
+  55%{transform:scaleY(1); transform-origin:bottom}100%{transform:scaleY(0); transform-origin:bottom}}
+
+.panel{background:color-mix(in srgb, var(--basalto) 72%, transparent);
+  backdrop-filter:blur(14px); border:1px solid color-mix(in srgb, var(--ceniza) 25%, transparent);
+  border-radius:2px; padding:clamp(2rem,4.5vw,3.8rem)}
+.panel h2{font-size:clamp(2rem,4.6vw,3.6rem); margin-top:1.4rem}
+.panel .cuerpo{color:var(--ceniza); margin-top:1.3rem; max-width:52ch}
+.panel--der{margin-left:auto; max-width:600px}
+.panel--izq{margin-right:auto; max-width:600px}
+
+.minidatos{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2.2rem;
+  border-top:1px solid color-mix(in srgb, var(--ceniza) 30%, transparent); padding-top:1.5rem}
+@media(max-width:560px){.minidatos{grid-template-columns:1fr 1fr}}
+.minidatos .md b{font-family:var(--font-display); font-weight:480; font-size:1.9rem;
+  color:var(--brote); display:block; line-height:1}
+.minidatos .md b .u{font-family:var(--font-mono); font-size:.8rem; color:var(--lava)}
+.minidatos .md span{font-family:var(--font-mono); font-size:.6rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ceniza); display:block; margin-top:.6rem}
+.minidatos .md b.azul{color:var(--alisio-300)}
+
+.casos{display:grid; grid-template-columns:1fr 1fr; gap:1.5rem}
+@media(max-width:860px){.casos{grid-template-columns:1fr}}
+.caso{border:1px solid color-mix(in srgb, var(--ceniza) 30%, transparent); border-radius:2px;
+  overflow:hidden; background:color-mix(in srgb, var(--basalto) 80%, transparent); backdrop-filter:blur(10px)}
+.caso img{width:100%; height:240px; object-fit:cover; filter:contrast(1.04) saturate(1.05)}
+.caso figcaption{padding:1.3rem 1.5rem; display:flex; flex-direction:column; gap:.4rem}
+.caso .meta{font-family:var(--font-mono); font-size:.64rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ceniza); display:flex; justify-content:space-between; gap:1rem}
+.caso .meta em{font-style:normal; color:var(--brote)}
+.caso h3{font-size:1.4rem}
+
+.cap--fin{align-items:center; text-align:center}
+.cap--fin .eyebrow{justify-content:center}
+.cap--fin .eyebrow::before{display:none}
+.cap--fin h2{font-size:clamp(2.6rem,7vw,5.6rem); max-width:16ch; margin:1.4rem auto 0}
+.cap--fin h2 .verde{color:var(--brote)}
+.cap--fin p{color:var(--ceniza); max-width:46ch; margin:1.6rem auto 0}
+.cap--fin .cta{display:flex; gap:1rem; justify-content:center; margin-top:2.6rem; flex-wrap:wrap}
+.cap--fin .firma{margin-top:3.5rem; font-family:var(--font-mono); font-size:.7rem;
+  letter-spacing:.1em; color:var(--ceniza); line-height:2}
+.cap--fin .firma b{color:var(--papel); font-weight:400}
+
+.footer{position:relative; z-index:1; padding:2.2rem var(--margin-page);
+  border-top:1px solid color-mix(in srgb, var(--ceniza) 20%, transparent);
+  display:flex; justify-content:space-between; gap:1.5rem; flex-wrap:wrap;
+  font-family:var(--font-mono); font-size:.62rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ceniza);
+  background:color-mix(in srgb, var(--basalto) 80%, transparent); backdrop-filter:blur(8px)}
+.footer em{font-style:normal; color:var(--brote)}
+
+.ver-switch{position:fixed; bottom:1rem; right:1rem; z-index:200; display:flex; align-items:center;
+  gap:.15rem; font-family:var(--font-mono); font-size:.6rem; letter-spacing:.1em;
+  background:color-mix(in srgb, var(--basalto) 88%, transparent); backdrop-filter:blur(8px);
+  border:1px solid color-mix(in srgb, var(--ceniza) 35%, transparent); border-radius:2px; padding:.3rem .4rem}
+.ver-switch span{color:var(--ceniza); margin-right:.4rem; padding-left:.3rem}
+.ver-switch a{color:var(--ceniza); text-decoration:none; padding:.25rem .45rem; border-radius:2px}
+.ver-switch a:hover{color:var(--papel)}
+.ver-switch a.on{background:var(--brote); color:var(--basalto)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important; transition-duration:150ms !important}
+  html.js .reveal{opacity:1; transform:none}
+  html.js .palabra i{transform:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="escena" aria-hidden="true"></canvas>
+<div class="progreso" aria-hidden="true"><i id="barra"></i></div>
+<div class="fase" id="fase" data-f="0" aria-hidden="true"><span id="faseTxt">FASE 01 — LA GOTA</span></div>
+
+<nav class="nav">
+  <a class="nav__brand" href="#top">ALISIO HYDRO <em>×</em> VERDE VOLCÁN</a>
+  <a class="btn btn--brote" href="#contacto">Pide tu estudio →</a>
+</nav>
+
+<nav class="hitos" aria-label="Fases">
+  <a href="#top" class="act" aria-label="Inicio"></a>
+  <a href="#circuito" aria-label="El circuito"></a>
+  <a href="#marcas" aria-label="Las marcas"></a>
+  <a href="#casos" aria-label="Casos reales"></a>
+  <a href="#contacto" aria-label="Contacto"></a>
+</nav>
+
+<!-- FASE 0 · LA GOTA -->
+<section class="cap cap--hero" id="top">
+  <div class="cap__inner">
+    <p class="eyebrow reveal" style="--stagger:0">Metamorfosis · Hidroponía NFT en Canarias</p>
+    <h1 style="margin-top:1.6rem">
+      <span class="palabra" style="--stagger:1"><i>La <span class="italica azul">gota</span>&nbsp;</i></span>
+      <span class="palabra" style="--stagger:2"><i>se hace <span class="italica verde">hoja</span>;&nbsp;</i></span><br>
+      <span class="palabra" style="--stagger:3"><i>la hoja, <span class="italica rojo">volcán</span>.</i></span>
+    </h1>
+    <p class="sub reveal" style="--stagger:4">
+      Lo que tienes delante son 14.000 partículas. Lo que cuentan es nuestro
+      sistema: el agua que circula, la planta que crece, la isla que la sostiene.
+    </p>
+    <div class="cta reveal" style="--stagger:5">
+      <a class="btn btn--brote" href="#contacto">Pide el estudio de tu finca →</a>
+      <a class="btn btn--ghost" href="#circuito">Ver la metamorfosis</a>
+    </div>
+  </div>
+  <div class="scrollcue">scroll</div>
+</section>
+
+<!-- FASE 1 · EL CIRCUITO (gota) -->
+<section class="cap" id="circuito">
+  <div class="cap__inner">
+    <div class="panel panel--der reveal">
+      <p class="eyebrow">FASE 01 — La gota</p>
+      <h2>Cada gota trabaja <span class="italica" style="color:var(--alisio-300)">mil veces</span>.</h2>
+      <p class="cuerpo">En un circuito NFT el agua no se gasta: circula. Una lámina de
+      2–3 mm recorre los canales, la raíz toma lo que necesita y el resto vuelve
+      al depósito para empezar de nuevo.</p>
+      <div class="minidatos">
+        <div class="md"><b><span class="dato" data-count="90">0</span><span class="u">%</span></b><span>menos agua que en suelo</span></div>
+        <div class="md"><b class="azul"><span class="dato" data-count="3">0</span><span class="u">mm</span></b><span>de lámina de cultivo</span></div>
+        <div class="md"><b><span class="dato" data-count="365">0</span><span class="u">d/año</span></b><span>de producción continua</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 2 · LAS MARCAS (hoja) -->
+<section class="cap" id="marcas">
+  <div class="cap__inner">
+    <div class="panel panel--izq reveal">
+      <p class="eyebrow">FASE 02 — La hoja</p>
+      <h2>Dos marcas riegan <span class="italica" style="color:var(--brote)">la misma raíz</span>.</h2>
+      <p class="cuerpo"><b style="color:var(--alisio-300); font-weight:400">Alisio Hydro</b> diseña e
+      instala el sistema llave en mano: estudio de microclima, obra, telemetría y subvenciones.
+      <br><br><b style="color:var(--brote); font-weight:400">Verde Volcán</b> cultiva y entrega:
+      lechuga, tomate, fresa y aromáticas, cosechadas menos de 24 h antes de llegar
+      a tu cocina.</p>
+      <div class="cta" style="display:flex; gap:1rem; margin-top:2.2rem; flex-wrap:wrap">
+        <a class="btn btn--ghost" href="mailto:hola@alisiohydro.com">Hablar con ingeniería</a>
+        <a class="btn btn--ghost" href="mailto:hola@verdevolcan.com">Hablar con cultivo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 3 · CASOS -->
+<section class="cap" id="casos">
+  <div class="cap__inner">
+    <p class="eyebrow reveal" style="margin-bottom:1.5rem">PRUEBA REAL — SIN RENDERS</p>
+    <div class="casos">
+      <figure class="caso reveal" style="--stagger:1">
+        <img src="../assets/firgas-aereo.jpg" alt="Vista aérea de la instalación NFT de fresa en Firgas, Gran Canaria">
+        <figcaption>
+          <span class="meta"><span>FIRGAS · GRAN CANARIA</span><em>FRESA</em></span>
+          <h3>Fresa de medianías</h3>
+        </figcaption>
+      </figure>
+      <figure class="caso reveal" style="--stagger:2">
+        <img src="../assets/guinea-lechugas.jpg" alt="Lechugas batavia en canales NFT bajo invernadero, proyecto Guinea">
+        <figcaption>
+          <span class="meta"><span>GUINEA · 500 M²</span><em>TOMATE · LECHUGA</em></span>
+          <h3>Hoja verde a escala</h3>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 4 · EL VOLCÁN (cierre) -->
+<section class="cap cap--fin" id="contacto">
+  <div class="cap__inner">
+    <p class="eyebrow reveal">FASE 03 — EL VOLCÁN</p>
+    <h2 class="reveal" style="--stagger:1">La isla ya pone la tierra. <span class="italica verde">Pon tú la finca.</span></h2>
+    <p class="reveal" style="--stagger:2">Estudio de viabilidad gratuito con números de instalaciones
+    reales. O un plan de suministro semanal si lo tuyo es la cocina.</p>
+    <div class="cta reveal" style="--stagger:3">
+      <a class="btn btn--brote" href="mailto:hola@alisiohydro.com?subject=Estudio%20de%20viabilidad">Pide el estudio de tu finca →</a>
+      <a class="btn btn--ghost" href="mailto:hola@verdevolcan.com?subject=Suministro%20HORECA">Suministro HORECA</a>
+    </div>
+    <p class="firma reveal" style="--stagger:4">
+      CONTACTO TÉCNICO — <b>Néstor Rodríguez</b> · Ingeniería e instalaciones<br>
+      hola@alisiohydro.com · hola@verdevolcan.com · Islas Canarias
+    </p>
+  </div>
+</section>
+
+<div class="ver-switch" aria-label="Versiones de diseño">
+  <span>DISEÑO</span><a href="../">V1</a><a href="../v2/">V2</a><a class="on" href="./">V3</a>
+</div>
+
+<footer class="footer">
+  <span><em>ALISIO HYDRO</em> — INGENIERÍA</span>
+  <span>VERDE VOLCÁN — CULTIVO</span>
+  <span>© 2026 · HECHO EN CANARIAS</span>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+
+const io = new IntersectionObserver((es)=>{
+  for(const e of es){ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target);} }
+},{threshold:.12, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.palabra').forEach(el=>io.observe(el));
+
+const ioC = new IntersectionObserver((es)=>{
+  for(const e of es){ if(!e.isIntersecting) continue; ioC.unobserve(e.target);
+    const el=e.target, t=+el.dataset.count, t0=performance.now();
+    const tick=(now)=>{const p=Math.min((now-t0)/900,1),k=1-Math.pow(1-p,3);
+      el.textContent=Math.round(t*k); if(p<1)requestAnimationFrame(tick)};
+    requestAnimationFrame(tick);}
+},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>ioC.observe(el));
+
+const barra=document.getElementById('barra');
+const fase=document.getElementById('fase');
+const faseTxt=document.getElementById('faseTxt');
+const NOMBRES=['FASE 01 — LA GOTA','FASE 02 — LA HOJA','FASE 03 — EL VOLCÁN'];
+addEventListener('scroll',()=>{
+  const max=document.documentElement.scrollHeight-innerHeight;
+  const p=Math.min(Math.max(scrollY/max,0),1);
+  barra.style.width=(p*100)+'%';
+  const f=p<0.38?0:(p<0.72?1:2);
+  if(fase.dataset.f!=String(f)){fase.dataset.f=f; faseTxt.textContent=NOMBRES[f];}
+},{passive:true});
+
+const hitos=[...document.querySelectorAll('.hitos a')];
+const caps=[...document.querySelectorAll('.cap')];
+const ioH=new IntersectionObserver((es)=>{
+  for(const e of es){ if(!e.isIntersecting) continue;
+    const id=e.target.id||'top';
+    hitos.forEach(h=>h.classList.toggle('act', h.getAttribute('href')==='#'+id));}
+},{rootMargin:'-45% 0px -50% 0px'});
+caps.forEach(c=>ioH.observe(c));
+</script>
+
+<!-- ============ ESCULTURA DE PARTÍCULAS ============ -->
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+const lienzo = document.getElementById('escena');
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const movil = innerWidth < 760;
+
+try{
+  if(reduceMotion) throw new Error('reduced-motion');
+
+  const renderer = new THREE.WebGLRenderer({canvas:lienzo, antialias:false, alpha:false});
+  const dpr = Math.min(devicePixelRatio, 2);
+  renderer.setPixelRatio(dpr);
+  renderer.setSize(innerWidth, innerHeight);
+
+  const escena = new THREE.Scene();
+  escena.background = new THREE.Color(0x161A14);
+
+  const camara = new THREE.PerspectiveCamera(50, innerWidth/innerHeight, 0.1, 100);
+  camara.position.set(0, 0, 8);
+
+  /* ============================================================
+     Tres formas, mismas N partículas:
+     A · GOTA  — superficie de revolución (lágrima)
+     B · HOJA  — limbo curvado con nervio central
+     C · VOLCÁN — cono con cráter y chispas de lava
+     ============================================================ */
+  const N = movil ? 6500 : 14000;
+  const posA = new Float32Array(N*3);
+  const posB = new Float32Array(N*3);
+  const posC = new Float32Array(N*3);
+  const seed = new Float32Array(N);
+
+  for(let i=0;i<N;i++){
+    seed[i] = Math.random();
+
+    /* ---- A · gota (lágrima de revolución, punta arriba) ---- */
+    {
+      const t = Math.acos(1-2*Math.random());          // distribución uniforme en esfera
+      const th = Math.random()*Math.PI*2;
+      // perfil lágrima: r máximo abajo, punta fina arriba
+      const r = Math.sin(t)*Math.pow(Math.sin(t/2),0.85)*1.35;
+      const jitter = 0.97+Math.random()*0.06;
+      posA[i*3]   = Math.cos(th)*r*jitter;
+      posA[i*3+1] = -Math.cos(t)*1.85;                  // invertir: punta arriba
+      posA[i*3+2] = Math.sin(th)*r*jitter;
+    }
+
+    /* ---- B · hoja (limbo con curvatura y pliegue central) ---- */
+    {
+      const u = Math.random();                          // a lo largo del nervio
+      const v = (Math.random()*2-1);                    // a lo ancho
+      const w = Math.pow(Math.sin(Math.PI*u),0.65)*1.25*(1-0.22*u);
+      const x = (u-0.48)*4.4;
+      const z = v*w;
+      // pliegue en V + arqueo longitudinal + nervio marcado
+      let y = -Math.abs(v)*w*0.55 + Math.sin(u*Math.PI)*0.55 - 0.15;
+      if(Math.abs(v)<0.04) y += 0.05;                   // nervio central
+      // rotar la hoja ~35° para presentarla a cámara
+      const a = -0.6;
+      posB[i*3]   = x*Math.cos(0.5) - z*Math.sin(0.5);
+      posB[i*3+1] = y*Math.cos(a) - z*Math.sin(a)*0.4;
+      posB[i*3+2] = z*Math.cos(a)*0.9 + y*Math.sin(a) + x*Math.sin(0.5)*0.3;
+    }
+
+    /* ---- C · volcán (cono con cráter; las semillas altas son chispas) ---- */
+    {
+      const esChispa = seed[i] > 0.93;
+      if(esChispa){
+        // chispas suspendidas sobre el cráter
+        const th = Math.random()*Math.PI*2;
+        const rr = Math.random()*0.55;
+        posC[i*3]   = Math.cos(th)*rr;
+        posC[i*3+1] = 1.15 + Math.random()*1.5;
+        posC[i*3+2] = Math.sin(th)*rr;
+      }else{
+        const h = Math.pow(Math.random(),1.35);         // densidad hacia la base
+        const y = h*2.05;
+        const rim = 0.62;                                // radio del cráter
+        const R = 2.5*(1-y/2.45);
+        const r = Math.max(R, rim*(y>1.7?1:0)) * (0.97+Math.random()*0.06);
+        const th = Math.random()*Math.PI*2;
+        posC[i*3]   = Math.cos(th)*r;
+        posC[i*3+1] = y-1.05;
+        posC[i*3+2] = Math.sin(th)*r;
+      }
+    }
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(posA,3));
+  geo.setAttribute('posB', new THREE.BufferAttribute(posB,3));
+  geo.setAttribute('posC', new THREE.BufferAttribute(posC,3));
+  geo.setAttribute('seed', new THREE.BufferAttribute(seed,1));
+
+  const mat = new THREE.ShaderMaterial({
+    transparent:true, depthWrite:false, blending:THREE.AdditiveBlending,
+    uniforms:{
+      uMorph:{value:0}, uTime:{value:0},
+      uSize:{value:(movil?200:260)*dpr},
+      uColA:{value:new THREE.Color(0x7FC4D8)},   // gota: alisio
+      uColB:{value:new THREE.Color(0xC8E64B)},   // hoja: brote
+      uColC:{value:new THREE.Color(0x4E8A3F)},   // volcán: clorofila oscura
+      uLava:{value:new THREE.Color(0xD9542B)}    // chispas
+    },
+    vertexShader:`
+      attribute vec3 posB; attribute vec3 posC; attribute float seed;
+      uniform float uMorph; uniform float uTime; uniform float uSize;
+      varying float vSeed; varying float vM1; varying float vM2;
+      void main(){
+        float m1 = smoothstep(0.0,1.0,clamp(uMorph,0.0,1.0));
+        float m2 = smoothstep(0.0,1.0,clamp(uMorph-1.0,0.0,1.0));
+        // cada partícula viaja con un pequeño desfase según su semilla
+        float d1 = smoothstep(0.0,1.0,clamp((uMorph-seed*0.25)/0.75,0.0,1.0));
+        float d2 = smoothstep(0.0,1.0,clamp((uMorph-1.0-seed*0.25)/0.75,0.0,1.0));
+        vec3 p = mix(position, posB, d1);
+        p = mix(p, posC, d2);
+        float w = uTime*0.7 + seed*47.0;
+        p += 0.05*vec3(sin(w), cos(w*1.31), sin(w*0.83));
+        vec4 mv = modelViewMatrix * vec4(p,1.0);
+        gl_PointSize = uSize*(0.4+0.6*seed)/max(-mv.z,0.1)*0.1;
+        gl_PointSize = clamp(gl_PointSize, 1.5, 14.0);
+        vSeed = seed; vM1 = m1; vM2 = m2;
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader:`
+      precision mediump float;
+      uniform vec3 uColA; uniform vec3 uColB; uniform vec3 uColC; uniform vec3 uLava;
+      varying float vSeed; varying float vM1; varying float vM2;
+      void main(){
+        float d = length(gl_PointCoord-0.5);
+        if(d>0.5) discard;
+        float a = smoothstep(0.5,0.06,d);
+        vec3 col = mix(uColA, uColB, vM1);
+        col = mix(col, uColC, vM2);
+        if(vSeed>0.93) col = mix(col, uLava, vM2);      // chispas de cráter
+        gl_FragColor = vec4(col, a*(0.3+0.7*vSeed));
+      }`
+  });
+
+  const escultura = new THREE.Points(geo, mat);
+  escena.add(escultura);
+
+  /* ---- keyframes de puesta en escena por scroll ----
+     p:      0     .25    .5     .75    1
+     morph:  0     .25    1.0    1.55   2.0
+     x:      2.3  -2.1    2.1   -2.1    0     (esquiva los paneles)
+     y:     -0.2   0     -0.1    0      0.25
+     esc:    1.15  0.95   1.05   0.9    1.3                         */
+  const KF = {
+    p:    [0,    0.25, 0.5,  0.75, 1],
+    morph:[0,    0.25, 1.0,  1.55, 2.0],
+    x:    [2.3, -2.1,  2.1, -2.1,  0],
+    y:    [-0.2, 0,   -0.1,  0,    0.25],
+    s:    [1.15, 0.95, 1.05, 0.9,  1.3]
+  };
+  const interp=(arr,p)=>{
+    const ps=KF.p;
+    for(let i=0;i<ps.length-1;i++){
+      if(p<=ps[i+1]){
+        const t=(p-ps[i])/(ps[i+1]-ps[i]);
+        const k=t*t*(3-2*t);                    // suavizado
+        return arr[i]+(arr[i+1]-arr[i])*k;
+      }
+    }
+    return arr[arr.length-1];
+  };
+
+  let mx=0,my=0,smx=0,smy=0,prog=0,smProg=0;
+  addEventListener('pointermove',(e)=>{
+    mx=(e.clientX/innerWidth-0.5)*2; my=(e.clientY/innerHeight-0.5)*2;
+  },{passive:true});
+  const calcProg=()=>{const max=document.documentElement.scrollHeight-innerHeight;
+    prog=Math.min(Math.max(scrollY/max,0),1)};
+  addEventListener('scroll',calcProg,{passive:true}); calcProg();
+
+  addEventListener('resize',()=>{
+    camara.aspect=innerWidth/innerHeight; camara.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);
+  });
+
+  let visible=true;
+  document.addEventListener('visibilitychange',()=>{visible=!document.hidden});
+
+  const reloj = new THREE.Clock();
+  renderer.setAnimationLoop(()=>{
+    if(!visible) return;
+    const t = reloj.getElapsedTime();
+    smProg += (prog-smProg)*0.05;
+    smx += (mx-smx)*0.04; smy += (my-smy)*0.04;
+
+    mat.uniforms.uTime.value = t;
+    mat.uniforms.uMorph.value = interp(KF.morph, smProg);
+
+    escultura.position.x = (movil?0:interp(KF.x, smProg));
+    escultura.position.y = interp(KF.y, smProg);
+    const s = interp(KF.s, smProg)*(movil?0.78:1);
+    escultura.scale.setScalar(s);
+    escultura.rotation.y = t*0.16 + smProg*3.2;
+
+    camara.position.x = smx*0.7;
+    camara.position.y = smy*-0.5;
+    camara.lookAt(escultura.position.x*0.6, 0, 0);
+
+    renderer.render(escena, camara);
+  });
+}catch(err){
+  document.body.classList.add('no3d');
+}
+</script>
+</body>
+</html>

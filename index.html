@@ -83,7 +83,13 @@ html.js .reveal.is-visible{opacity:1; transform:none}
   width:100%; background:var(--brote); transform:scaleX(0); transform-origin:left;
   transition:transform var(--dur-base) var(--ease-alisio)}
 .nav__links a:hover::after{transform:scaleX(1)}
-@media(max-width:760px){.nav__links a:not(.btn){display:none}}
+@media(max-width:760px){
+  .nav__links a:not(.btn){display:none}
+  .nav{padding:1rem 1.25rem}
+  .nav.is-scrolled{padding:.7rem 1.25rem}
+  .nav__brand{font-size:.62rem; letter-spacing:.07em; white-space:nowrap}
+  .nav .btn{padding:.55rem .9rem; font-size:.62rem; letter-spacing:.08em}
+}
 
 /* ---- Botones ---- */
 .btn{
@@ -106,7 +112,7 @@ html.js .reveal.is-visible{opacity:1; transform:none}
 
 /* ---- Hero ---- */
 .hero{min-height:100svh; display:flex; flex-direction:column; justify-content:flex-end;
-  position:relative; padding:0 var(--margin-page) 4rem; overflow:hidden}
+  position:relative; padding:6.5rem var(--margin-page) 4rem; overflow:hidden}
 .hero__flow{position:absolute; inset:0; z-index:0; opacity:.5}
 .hero__flow path{fill:none; stroke-width:1.2}
 .flow-a{stroke:var(--alisio-500); stroke-dasharray:6 14; animation:flujo 9s linear infinite}
@@ -121,7 +127,7 @@ html.js .reveal.is-visible{opacity:1; transform:none}
 .hero h1 .l-brote{color:var(--brote)}
 .hero__sub{max-width:42ch; margin-top:2rem; color:var(--ceniza); font-size:1.15rem}
 .hero__cta{display:flex; gap:1rem; margin-top:2.8rem; flex-wrap:wrap}
-.hero__data{display:flex; gap:3rem; flex-wrap:wrap; margin-top:4.5rem;
+.hero__data{display:flex; gap:1.5rem 2.5rem; flex-wrap:wrap; margin-top:4.5rem;
   padding-top:1.5rem; border-top:1px solid color-mix(in srgb, var(--ceniza) 25%, transparent)}
 .hero__data .item{font-family:var(--font-mono); font-size:.75rem;
   text-transform:uppercase; letter-spacing:.1em; color:var(--ceniza)}
@@ -148,7 +154,11 @@ html.js .reveal.is-visible{opacity:1; transform:none}
 
 /* ---- Dos marcas: split ---- */
 .split{display:flex; gap:1rem; min-height:560px}
-@media(max-width:860px){.split{flex-direction:column}}
+@media(max-width:860px){
+  .split{flex-direction:column}
+  .split__panel{min-height:0; padding:2.2rem 1.8rem}
+  .split__panel:hover{flex:1}
+}
 .split__panel{flex:1; border-radius:2px; padding:3rem 2.5rem; display:flex;
   flex-direction:column; justify-content:space-between; position:relative; overflow:hidden;
   transition:flex .7s var(--ease-alisio); cursor:pointer; text-decoration:none; min-height:480px}
@@ -173,8 +183,15 @@ html.js .reveal.is-visible{opacity:1; transform:none}
 .sistema{background:var(--papel); color:var(--basalto)}
 .sistema .eyebrow{color:var(--volcan-500)}
 .sistema__diagrama{margin:3rem 0 4rem; border:1px solid color-mix(in srgb, var(--humo) 25%, transparent);
-  border-radius:2px; background:var(--papel-2); padding:1rem}
-.sistema__diagrama svg{width:100%; height:auto; display:block}
+  border-radius:2px; background:var(--papel-2); padding:1rem; overflow-x:auto;
+  -webkit-overflow-scrolling:touch}
+.sistema__diagrama svg{width:100%; height:auto; display:block; min-width:720px}
+.sistema__hint{display:none}
+@media(max-width:760px){
+  .sistema__hint{display:block; font-family:var(--font-mono); font-size:.62rem;
+    text-transform:uppercase; letter-spacing:.12em; color:var(--ceniza);
+    text-align:right; margin-top:-3.2rem; margin-bottom:3rem; padding-right:.2rem}
+}
 .tuberia{fill:none; stroke:var(--alisio-500); stroke-width:2; stroke-dasharray:5 9;
   animation:flujo 7s linear infinite}
 .sistema__pasos{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:2.5rem}
@@ -244,6 +261,17 @@ html.js .reveal.is-visible{opacity:1; transform:none}
   text-transform:uppercase; color:var(--ceniza)}
 .footer em{font-style:normal; color:var(--brote)}
 .footer .azul{color:var(--alisio-300)}
+
+/* ---- Selector de versión ---- */
+.ver-switch{position:fixed; bottom:1rem; right:1rem; z-index:200; display:flex;
+  align-items:center; gap:.15rem; font-family:var(--font-mono); font-size:.6rem;
+  letter-spacing:.1em; background:color-mix(in srgb, var(--basalto) 88%, transparent);
+  backdrop-filter:blur(8px); border:1px solid color-mix(in srgb, var(--ceniza) 35%, transparent);
+  border-radius:2px; padding:.3rem .4rem}
+.ver-switch span{color:var(--ceniza); margin-right:.4rem; padding-left:.3rem}
+.ver-switch a{color:var(--ceniza); text-decoration:none; padding:.25rem .45rem; border-radius:2px}
+.ver-switch a:hover{color:var(--papel)}
+.ver-switch a.on{background:var(--brote); color:var(--basalto)}
 
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none !important; transition-duration:150ms !important}
@@ -381,6 +409,7 @@ html.js .reveal.is-visible{opacity:1; transform:none}
         <text x="985" y="170" font-family="Fragment Mono" font-size="12" fill="#2E7D96">RETORNO</text>
       </svg>
     </div>
+    <p class="sistema__hint" aria-hidden="true">← desliza el diagrama →</p>
     <div class="sistema__pasos">
       <div class="paso reveal" style="--stagger:0">
         <span class="paso__num">01 / SOLUCIÓN</span>
@@ -484,6 +513,10 @@ html.js .reveal.is-visible{opacity:1; transform:none}
     </div>
   </div>
 </section>
+
+<div class="ver-switch" aria-label="Versiones de diseño">
+  <span>DISEÑO</span><a class="on" href="./">V1</a><a href="v2/">V2</a><a href="v3/">V3</a>
+</div>
 
 <footer class="footer">
   <span><em>ALISIO HYDRO</em> — Ingeniería hidropónica</span>

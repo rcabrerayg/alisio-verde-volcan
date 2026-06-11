@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuaderno de Cultivo — Alisio Hydro × Verde Volcán</title>
+<meta name="description" content="Hidroponía NFT en Canarias contada como un cuaderno de campo: datos reales, fotos reales, cero renders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Hanken+Grotesk:wght@300;400;500;600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   V2 · CUADERNO DE CAMPO — edición papel
+   Sistema: Terroir Técnico (design-system/tokens.css)
+   ============================================================ */
+:root{
+  --basalto:#161A14; --basalto-2:#20251D;
+  --papel:#F2EFE6; --papel-2:#E9E4D6;
+  --ceniza:#8A8B7F; --humo:#41463C;
+  --alisio-900:#0F3543; --alisio-500:#2E7D96; --alisio-300:#7FC4D8;
+  --volcan-900:#1F4422; --volcan-500:#4E8A3F; --brote:#C8E64B;
+  --lava:#D9542B;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'Hanken Grotesk',-apple-system,sans-serif;
+  --font-mono:'Fragment Mono','SF Mono',monospace;
+  --ease-alisio:cubic-bezier(0.22,1,0.36,1);
+  --margin-page:clamp(1.25rem,4.5vw,5rem);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--papel); color:var(--basalto); font-family:var(--font-body);
+  font-size:1.0625rem; line-height:1.65; font-weight:300;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden}
+::selection{background:var(--volcan-900); color:var(--papel)}
+img{display:block; max-width:100%}
+
+/* grano de papel */
+body::after{content:""; position:fixed; inset:0; z-index:999; pointer-events:none;
+  opacity:.045; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.eyebrow{font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase;
+  letter-spacing:.14em; color:var(--volcan-500)}
+h1,h2,h3{font-family:var(--font-display); font-weight:470; line-height:1.04;
+  letter-spacing:-0.015em; text-wrap:balance}
+.italica{font-style:italic; font-variation-settings:'SOFT' 60,'WONK' 1; font-weight:420}
+.dato{font-family:var(--font-mono); font-variant-numeric:tabular-nums}
+
+html.js .reveal{opacity:0; transform:translateY(22px);
+  transition:opacity .9s var(--ease-alisio), transform .9s var(--ease-alisio);
+  transition-delay:calc(var(--stagger,0)*90ms)}
+html.js .reveal.is-visible{opacity:1; transform:none}
+/* revelado de imagen por cortina */
+html.js .wipe{clip-path:inset(0 100% 0 0);
+  transition:clip-path 1.2s var(--ease-alisio) calc(var(--stagger,0)*120ms)}
+html.js .wipe.is-visible{clip-path:inset(0 0 0 0)}
+
+/* ---- Cabecera de periódico ---- */
+.masthead{display:flex; justify-content:space-between; align-items:baseline; gap:1rem;
+  padding:1.1rem var(--margin-page); border-bottom:2px solid var(--basalto);
+  font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.12em;
+  position:sticky; top:0; background:color-mix(in srgb, var(--papel) 92%, transparent);
+  backdrop-filter:blur(10px); z-index:100}
+.masthead b{font-weight:400; color:var(--volcan-900)}
+.masthead .ed{color:var(--ceniza)}
+.masthead a{color:var(--basalto); text-decoration:none; border:1px solid var(--basalto);
+  padding:.4rem .8rem; border-radius:2px; transition:all .2s}
+.masthead a:hover{background:var(--basalto); color:var(--brote)}
+@media(max-width:700px){.masthead .ed{display:none}}
+
+/* ---- índice de capítulos lateral ---- */
+.capitulos{position:fixed; left:1.1rem; top:50%; transform:translateY(-50%); z-index:90;
+  display:flex; flex-direction:column; gap:1rem; font-family:var(--font-mono); font-size:.6rem;
+  letter-spacing:.12em}
+.capitulos a{color:var(--ceniza); text-decoration:none; display:flex; align-items:center; gap:.5rem;
+  transition:color .2s}
+.capitulos a::before{content:""; width:1.2rem; height:1px; background:currentColor;
+  transition:width .3s var(--ease-alisio)}
+.capitulos a:hover,.capitulos a.act{color:var(--volcan-900)}
+.capitulos a.act::before{width:2.2rem; background:var(--lava)}
+@media(max-width:1100px){.capitulos{display:none}}
+
+/* ---- Hero editorial ---- */
+.hero{padding:clamp(3rem,8vh,6rem) var(--margin-page) 0; position:relative}
+.hero__grid{display:grid; grid-template-columns:1.25fr .75fr; gap:2.5rem; max-width:1280px; margin:0 auto;
+  align-items:end}
+@media(max-width:900px){.hero__grid{grid-template-columns:1fr}}
+.hero__kicker{display:flex; justify-content:space-between; align-items:baseline; gap:1rem;
+  max-width:1280px; margin:0 auto 2.2rem; font-family:var(--font-mono); font-size:.68rem;
+  text-transform:uppercase; letter-spacing:.13em; color:var(--humo);
+  border-bottom:1px solid color-mix(in srgb, var(--humo) 30%, transparent); padding-bottom:.8rem}
+.hero h1{font-size:clamp(2.9rem,7.2vw,6.2rem); line-height:.99}
+.hero h1 .verde{color:var(--volcan-500)}
+.hero h1 .azul{color:var(--alisio-500)}
+.hero__nota{margin-top:2.2rem; max-width:46ch; color:var(--humo); font-size:1.1rem}
+.hero__cta{display:flex; gap:.9rem; margin-top:2.4rem; flex-wrap:wrap}
+.hero__foto{position:relative}
+.hero__foto img{width:100%; height:clamp(300px,46vh,460px); object-fit:cover;
+  border:1px solid color-mix(in srgb, var(--ceniza) 50%, transparent);
+  filter:contrast(1.04) saturate(1.05)}
+.hero__foto figcaption{font-family:var(--font-mono); font-size:.62rem; text-transform:uppercase;
+  letter-spacing:.12em; color:var(--humo); margin-top:.6rem; display:flex; justify-content:space-between}
+/* sello giratorio */
+.sello{position:absolute; top:-3.2rem; left:-3.2rem; width:7.5rem; height:7.5rem; z-index:5;
+  animation:gira 26s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.sello text{font-family:var(--font-mono); font-size:8.2px; letter-spacing:.22em; fill:var(--volcan-900)}
+.sello .c{fill:none; stroke:var(--volcan-900); stroke-width:1}
+.sello .h{fill:var(--lava)}
+@media(max-width:900px){.sello{top:-2.6rem; right:-1rem; left:auto; width:6rem; height:6rem}}
+
+/* ---- regla de datos bajo hero ---- */
+.regla{max-width:1280px; margin:3.5rem auto 0; padding:0 var(--margin-page)}
+.regla__inner{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  border-top:2px solid var(--basalto); border-bottom:1px solid color-mix(in srgb, var(--humo) 30%, transparent)}
+.regla__item{padding:1.1rem 1rem 1.1rem 0; font-family:var(--font-mono); font-size:.66rem;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--humo)}
+.regla__item b{display:block; font-size:1.05rem; font-weight:400; color:var(--basalto); margin-top:.35rem}
+.regla__item b.acc{color:var(--volcan-500)}
+
+/* ---- botones ---- */
+.btn{display:inline-flex; align-items:center; gap:.6rem; font-family:var(--font-mono);
+  font-size:.72rem; text-transform:uppercase; letter-spacing:.12em; text-decoration:none;
+  padding:.85rem 1.6rem; border-radius:2px; transition:all .22s var(--ease-alisio); cursor:pointer}
+.btn .fl{transition:transform .22s var(--ease-alisio)}
+.btn:hover .fl{transform:translateX(4px)}
+.btn--tinta{background:var(--basalto); color:var(--brote) !important}
+.btn--tinta:hover{background:var(--volcan-900)}
+.btn--linea{border:1px solid var(--basalto); color:var(--basalto) !important}
+.btn--linea:hover{background:var(--basalto); color:var(--papel) !important}
+
+/* ---- capítulos ---- */
+.cap{padding:clamp(5rem,11vh,9rem) var(--margin-page) 0}
+.cap__inner{max-width:1280px; margin:0 auto}
+.cap__head{display:grid; grid-template-columns:minmax(0,.28fr) minmax(0,.72fr); gap:2rem;
+  border-top:2px solid var(--basalto); padding-top:1.2rem; margin-bottom:3.2rem}
+@media(max-width:760px){.cap__head{grid-template-columns:1fr; gap:.8rem}}
+.cap__num{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--humo)}
+.cap__num em{font-style:normal; color:var(--lava)}
+.cap__head h2{font-size:clamp(2rem,4.4vw,3.4rem)}
+
+/* ---- cap 1: marcas, fichas de specimen ---- */
+.fichas{display:grid; grid-template-columns:1fr 1fr; gap:2rem}
+@media(max-width:860px){.fichas{grid-template-columns:1fr}}
+.ficha{border:1px solid var(--basalto); border-radius:2px; background:var(--papel);
+  display:flex; flex-direction:column}
+.ficha__tab{display:flex; justify-content:space-between; padding:.8rem 1.4rem;
+  border-bottom:1px solid var(--basalto); font-family:var(--font-mono); font-size:.62rem;
+  text-transform:uppercase; letter-spacing:.13em}
+.ficha--alisio .ficha__tab{background:var(--alisio-100); color:var(--alisio-900)}
+.ficha--volcan .ficha__tab{background:var(--volcan-100); color:var(--volcan-900)}
+.ficha__body{padding:1.8rem 1.4rem 2rem; flex:1}
+.ficha__body h3{font-size:1.9rem; margin-bottom:.8rem}
+.ficha--alisio h3 .italica{color:var(--alisio-500)}
+.ficha--volcan h3 .italica{color:var(--volcan-500)}
+.ficha__body p{color:var(--humo); font-size:.97rem; max-width:50ch}
+.ficha__specs{list-style:none; margin-top:1.6rem}
+.ficha__specs li{display:flex; justify-content:space-between; gap:1rem; padding:.55rem 0;
+  border-top:1px dotted color-mix(in srgb, var(--humo) 45%, transparent);
+  font-size:.9rem}
+.ficha__specs .k{font-family:var(--font-mono); font-size:.66rem; text-transform:uppercase;
+  letter-spacing:.1em; color:var(--humo); padding-top:.2rem}
+.ficha__specs .v{text-align:right}
+
+/* ---- cap 2: sistema en pasos numerados margen ---- */
+.bitacora{display:grid; grid-template-columns:minmax(0,.34fr) minmax(0,.66fr); gap:3rem}
+@media(max-width:860px){.bitacora{grid-template-columns:1fr}}
+.bitacora__intro p{font-size:1.15rem; color:var(--humo); max-width:38ch}
+.bitacora__intro .gran{font-family:var(--font-display); font-size:clamp(3.4rem,6vw,5.4rem);
+  line-height:1; color:var(--volcan-900); margin-top:1.6rem}
+.bitacora__intro .gran .u{font-family:var(--font-mono); font-size:1.1rem; color:var(--lava)}
+.bitacora__intro .pie{font-family:var(--font-mono); font-size:.62rem; text-transform:uppercase;
+  letter-spacing:.12em; color:var(--humo); margin-top:.6rem}
+.pasos{counter-reset:paso}
+.paso{display:grid; grid-template-columns:4.5rem 1fr; gap:1.4rem; padding:1.6rem 0;
+  border-top:1px solid color-mix(in srgb, var(--humo) 35%, transparent)}
+.paso::before{counter-increment:paso; content:"0" counter(paso);
+  font-family:var(--font-mono); font-size:1.6rem; color:var(--lava)}
+.paso h4{font-family:var(--font-display); font-weight:520; font-size:1.3rem; margin-bottom:.4rem}
+.paso p{color:var(--humo); font-size:.96rem; max-width:52ch}
+
+/* ---- cap 3: campo (fotos) ---- */
+.campo{display:grid; grid-template-columns:repeat(12,1fr); gap:1.4rem}
+.campo figure{position:relative}
+.campo img{width:100%; object-fit:cover; border:1px solid color-mix(in srgb, var(--ceniza) 55%, transparent);
+  filter:contrast(1.04) saturate(1.05)}
+.campo figcaption{font-family:var(--font-mono); font-size:.62rem; text-transform:uppercase;
+  letter-spacing:.12em; color:var(--humo); margin-top:.55rem; display:flex; justify-content:space-between; gap:1rem}
+.campo .f1{grid-column:1/8}.campo .f1 img{height:430px}
+.campo .f2{grid-column:8/13; align-self:end}.campo .f2 img{height:330px}
+.campo .f3{grid-column:1/6}.campo .f3 img{height:300px}
+.campo .f4{grid-column:6/13; margin-top:-4rem}.campo .f4 img{height:420px}
+@media(max-width:760px){.campo .f1,.campo .f2,.campo .f3,.campo .f4{grid-column:1/13; margin-top:0}
+  .campo img{height:280px !important}}
+.campo__nota{grid-column:1/13; font-family:var(--font-mono); font-size:.72rem;
+  letter-spacing:.1em; color:var(--humo); text-transform:uppercase; padding:1rem 0 0;
+  border-bottom:1px solid color-mix(in srgb, var(--humo) 30%, transparent); padding-bottom:.8rem}
+.campo__nota em{font-style:normal; color:var(--lava)}
+
+/* ---- cierre ---- */
+.cierre{margin-top:clamp(5rem,11vh,9rem); background:var(--basalto); color:var(--papel);
+  padding:clamp(4rem,10vh,7.5rem) var(--margin-page)}
+.cierre__inner{max-width:1280px; margin:0 auto; display:grid;
+  grid-template-columns:minmax(0,.62fr) minmax(0,.38fr); gap:3rem; align-items:end}
+@media(max-width:860px){.cierre__inner{grid-template-columns:1fr}}
+.cierre h2{font-size:clamp(2.4rem,5.5vw,4.4rem); color:var(--papel)}
+.cierre h2 .italica{color:var(--brote)}
+.cierre p{color:var(--ceniza); margin-top:1.4rem; max-width:44ch}
+.cierre .btn--tinta{background:var(--brote); color:var(--basalto) !important}
+.cierre .btn--tinta:hover{background:#d6f06a}
+.cierre .btn--linea{border-color:color-mix(in srgb, var(--papel) 40%, transparent); color:var(--papel) !important}
+.cierre .btn--linea:hover{background:var(--papel); color:var(--basalto) !important}
+.cierre__firma{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em;
+  line-height:2.1; color:var(--ceniza); border-top:1px solid color-mix(in srgb, var(--ceniza) 35%, transparent);
+  padding-top:1.4rem}
+.cierre__firma b{color:var(--papel); font-weight:400}
+
+.footer{background:var(--basalto); color:var(--ceniza); padding:0 var(--margin-page) 2.5rem;
+  font-family:var(--font-mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase;
+  display:flex; justify-content:space-between; gap:1.5rem; flex-wrap:wrap}
+.footer em{font-style:normal; color:var(--brote)}
+
+/* ---- selector de versión ---- */
+.ver-switch{position:fixed; bottom:1rem; right:1rem; z-index:200; display:flex; align-items:center;
+  gap:.15rem; font-family:var(--font-mono); font-size:.6rem; letter-spacing:.1em;
+  background:color-mix(in srgb, var(--papel) 90%, transparent); backdrop-filter:blur(8px);
+  border:1px solid var(--basalto); border-radius:2px; padding:.3rem .4rem}
+.ver-switch span{color:var(--humo); margin-right:.4rem; padding-left:.3rem}
+.ver-switch a{color:var(--humo); text-decoration:none; padding:.25rem .45rem; border-radius:2px}
+.ver-switch a:hover{color:var(--basalto)}
+.ver-switch a.on{background:var(--basalto); color:var(--brote)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important; transition-duration:150ms !important}
+  html.js .reveal{opacity:1; transform:none}
+  html.js .wipe{clip-path:none}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <span><b>ALISIO HYDRO × VERDE VOLCÁN</b></span>
+  <span class="ed">CUADERNO DE CULTIVO · ED. JUNIO 2026 · ISLAS CANARIAS</span>
+  <a href="#contacto">Pide tu estudio</a>
+</header>
+
+<nav class="capitulos" aria-label="Capítulos">
+  <a href="#top" class="act">PORTADA</a>
+  <a href="#marcas">MARCAS</a>
+  <a href="#sistema">SISTEMA</a>
+  <a href="#campo">CAMPO</a>
+  <a href="#contacto">CONTACTO</a>
+</nav>
+
+<!-- ============ PORTADA ============ -->
+<section class="hero" id="top">
+  <div class="hero__kicker reveal" style="--stagger:0">
+    <span>Nº 01 — LA LÁMINA DE 3 MM</span>
+    <span class="dato">28°07′N · 15°26′W</span>
+  </div>
+  <div class="hero__grid">
+    <div>
+      <h1>
+        <span class="reveal" style="--stagger:1; display:block">El Atlántico cabe</span>
+        <span class="reveal" style="--stagger:2; display:block">en una <span class="italica azul">lámina</span></span>
+        <span class="reveal" style="--stagger:3; display:block">de <span class="italica verde">tres milímetros</span>.</span>
+      </h1>
+      <p class="hero__nota reveal" style="--stagger:4">
+        Cuaderno de cultivo hidropónico en Canarias. Lo que sigue no es un folleto:
+        son datos, fotos y aprendizajes de instalaciones NFT que ya producen.
+      </p>
+      <div class="hero__cta reveal" style="--stagger:5">
+        <a class="btn btn--tinta" href="#contacto">Pide el estudio de tu finca <span class="fl">→</span></a>
+        <a class="btn btn--linea" href="#campo">Ver el campo</a>
+      </div>
+    </div>
+    <figure class="hero__foto reveal" style="--stagger:3">
+      <svg class="sello" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><path id="circ" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
+        <circle class="c" cx="60" cy="60" r="52"/>
+        <circle class="c" cx="60" cy="60" r="36"/>
+        <text><textPath href="#circ">CULTIVADO EN CANARIAS · SIN BARCO DE POR MEDIO · </textPath></text>
+        <circle class="h" cx="60" cy="60" r="4"/>
+      </svg>
+      <img class="wipe" src="../assets/guinea-lechugas.jpg" alt="Lechugas batavia en canales NFT, proyecto Guinea">
+      <figcaption><span>FIG. 01 — BATAVIA EN LÁMINA</span><span>GUINEA · DÍA 18</span></figcaption>
+    </figure>
+  </div>
+  <div class="regla reveal" style="--stagger:6">
+    <div class="regla__inner">
+      <div class="regla__item">Agua<b class="acc">−90 % vs. suelo</b></div>
+      <div class="regla__item">Cosecha<b>365 días / año</b></div>
+      <div class="regla__item">Instalado<b>500 m² + en obra</b></div>
+      <div class="regla__item">Renders usados<b class="acc">0</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAP 01 · MARCAS ============ -->
+<section class="cap" id="marcas">
+  <div class="cap__inner">
+    <div class="cap__head reveal">
+      <span class="cap__num"><em>CAP. 01</em> — QUIÉN HACE QUÉ</span>
+      <h2>Una instala, otra <span class="italica">cultiva</span>.</h2>
+    </div>
+    <div class="fichas">
+      <article class="ficha ficha--alisio reveal" style="--stagger:1">
+        <div class="ficha__tab"><span>FICHA A — INGENIERÍA</span><span class="dato">EST. 2026</span></div>
+        <div class="ficha__body">
+          <h3>Alisio <span class="italica">Hydro</span></h3>
+          <p>Estudia tu suelo y tu microclima, diseña el sistema NFT y lo deja
+          funcionando. Llave en mano, con telemetría y mantenimiento.</p>
+          <ul class="ficha__specs">
+            <li><span class="k">Servicio</span><span class="v">Viabilidad → instalación → operación</span></li>
+            <li><span class="k">Cliente tipo</span><span class="v">Propietario de suelo / inversor</span></li>
+            <li><span class="k">Extra</span><span class="v">Tramitación de subvenciones</span></li>
+          </ul>
+        </div>
+      </article>
+      <article class="ficha ficha--volcan reveal" style="--stagger:2">
+        <div class="ficha__tab"><span>FICHA B — PRODUCCIÓN</span><span class="dato">KM 0</span></div>
+        <div class="ficha__body">
+          <h3>Verde <span class="italica">Volcán</span></h3>
+          <p>Cultiva y vende la verdura: lechuga, tomate, fresa y aromáticas.
+          Cosechada menos de 24 h antes de llegar a tu cocina.</p>
+          <ul class="ficha__specs">
+            <li><span class="k">Servicio</span><span class="v">Suministro semanal HORECA / retail</span></li>
+            <li><span class="k">Cliente tipo</span><span class="v">Chef, F&amp;B manager, tienda local</span></li>
+            <li><span class="k">Extra</span><span class="v">Trazabilidad por lote</span></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAP 02 · SISTEMA ============ -->
+<section class="cap" id="sistema">
+  <div class="cap__inner">
+    <div class="cap__head reveal">
+      <span class="cap__num"><em>CAP. 02</em> — NUTRIENT FILM TECHNIQUE</span>
+      <h2>El agua va y <span class="italica">vuelve</span>.</h2>
+    </div>
+    <div class="bitacora">
+      <div class="bitacora__intro reveal" style="--stagger:0">
+        <p>Una película de agua con nutrientes recorre los canales en circuito
+        cerrado. La raíz toma lo que necesita; el resto vuelve al depósito.</p>
+        <div class="gran"><span class="dato" data-count="90">0</span><span class="u">%</span></div>
+        <p class="pie">DE AHORRO DE AGUA FRENTE AL CULTIVO EN SUELO</p>
+      </div>
+      <div class="pasos">
+        <div class="paso reveal" style="--stagger:1"><div>
+          <h4>Mezcla</h4>
+          <p>El depósito combina agua y nutrientes minerales calibrados por cultivo
+          y estación. En Canarias, eso incluye corregir la dureza del agua de cada isla.</p>
+        </div></div>
+        <div class="paso reveal" style="--stagger:2"><div>
+          <h4>Lámina</h4>
+          <p>Una bomba sube la solución a los canales. Por ellos corre una lámina de
+          2–3 mm: suficiente para alimentar, demasiado fina para encharcar.</p>
+        </div></div>
+        <div class="paso reveal" style="--stagger:3"><div>
+          <h4>Retorno</h4>
+          <p>Lo que la planta no usa baja por gravedad y vuelve al depósito.
+          De ahí el 90 % de ahorro: el agua no se tira, circula.</p>
+        </div></div>
+        <div class="paso reveal" style="--stagger:4"><div>
+          <h4>Cosecha</h4>
+          <p>Sin suelo no hay malas hierbas ni descanso de tierra. Hoja verde cada
+          30 días, todo el año, también en invierno.</p>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAP 03 · CAMPO ============ -->
+<section class="cap" id="campo">
+  <div class="cap__inner">
+    <div class="cap__head reveal">
+      <span class="cap__num"><em>CAP. 03</em> — REGISTRO FOTOGRÁFICO</span>
+      <h2>Sin renders: esto ya <span class="italica">crece</span>.</h2>
+    </div>
+    <div class="campo">
+      <p class="campo__nota reveal">TODAS LAS IMÁGENES SON DE INSTALACIONES PROPIAS EN PRODUCCIÓN — <em>FIRGAS (GRAN CANARIA) Y GUINEA</em></p>
+      <figure class="f1"><img class="wipe" src="../assets/firgas-aereo.jpg" alt="Vista aérea de los canales NFT de fresa en Firgas">
+        <figcaption><span>FIG. 02 — FRESA DE MEDIANÍAS</span><span>FIRGAS · GRAN CANARIA</span></figcaption></figure>
+      <figure class="f2"><img class="wipe" src="../assets/guinea-03.jpg" alt="Pasillo de cultivo bajo invernadero en Guinea" style="--stagger:1">
+        <figcaption><span>FIG. 03 — NAVE DE CULTIVO</span><span>GUINEA · 500 M²</span></figcaption></figure>
+      <figure class="f3"><img class="wipe" src="../assets/guinea-02.jpg" alt="Sala de energía con inversores y baterías" style="--stagger:1">
+        <figcaption><span>FIG. 04 — SALA DE ENERGÍA</span><span>AUTOCONSUMO</span></figcaption></figure>
+      <figure class="f4"><img class="wipe" src="../assets/guinea-04.jpg" alt="Tomateras en producción continua, proyecto Guinea" style="--stagger:2">
+        <figcaption><span>FIG. 05 — TOMATE EN CONTINUO</span><span>GUINEA · COSECHA SEMANAL</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section class="cierre" id="contacto">
+  <div class="cierre__inner">
+    <div class="reveal">
+      <p class="eyebrow" style="color:var(--brote); margin-bottom:1.2rem">ÚLTIMA PÁGINA — SIGUIENTES PASOS</p>
+      <h2>Tu finca puede ser el <span class="italica">capítulo 04</span>.</h2>
+      <p>Estudio de viabilidad de tu suelo o plan de suministro para tu cocina.
+      Con números de instalaciones reales, no de catálogo.</p>
+      <div class="hero__cta">
+        <a class="btn btn--tinta" href="mailto:hola@alisiohydro.com?subject=Estudio%20de%20viabilidad">Pide el estudio <span class="fl">→</span></a>
+        <a class="btn btn--linea" href="mailto:hola@verdevolcan.com?subject=Suministro%20HORECA">Suministro HORECA</a>
+      </div>
+    </div>
+    <div class="cierre__firma reveal" style="--stagger:1">
+      REDACTADO EN LAS ISLAS CANARIAS<br>
+      CONTACTO TÉCNICO — <b>Néstor Rodríguez</b><br>
+      hola@alisiohydro.com<br>
+      hola@verdevolcan.com
+    </div>
+  </div>
+</section>
+
+<div class="ver-switch" aria-label="Versiones de diseño">
+  <span>DISEÑO</span><a href="../">V1</a><a class="on" href="./">V2</a><a href="../v3/">V3</a>
+</div>
+
+<footer class="footer">
+  <span><em>ALISIO HYDRO</em> — INGENIERÍA</span>
+  <span>VERDE VOLCÁN — CULTIVO</span>
+  <span>© 2026 · HECHO EN CANARIAS</span>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+
+const io = new IntersectionObserver((entries)=>{
+  for(const e of entries){
+    if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }
+  }
+},{threshold:.12, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.wipe').forEach(el=>io.observe(el));
+
+/* contador */
+const ioCount = new IntersectionObserver((entries)=>{
+  for(const e of entries){
+    if(!e.isIntersecting) continue;
+    ioCount.unobserve(e.target);
+    const el=e.target, target=+el.dataset.count, t0=performance.now();
+    const tick=(t)=>{const p=Math.min((t-t0)/900,1), k=1-Math.pow(1-p,3);
+      el.textContent=Math.round(target*k); if(p<1)requestAnimationFrame(tick)};
+    requestAnimationFrame(tick);
+  }
+},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>ioCount.observe(el));
+
+/* capítulo activo en índice lateral */
+const secs=[...document.querySelectorAll('section[id], .hero')];
+const links=[...document.querySelectorAll('.capitulos a')];
+const ioCap=new IntersectionObserver((es)=>{
+  for(const e of es){ if(!e.isIntersecting) continue;
+    const id=e.target.id||'top';
+    links.forEach(l=>l.classList.toggle('act', l.getAttribute('href')==='#'+id));
+  }
+},{rootMargin:'-40% 0px -55% 0px'});
+secs.forEach(s=>ioCap.observe(s));
+</script>
+</body>
+</html>
