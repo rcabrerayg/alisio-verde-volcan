@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Metamorfosis — Alisio Hydro × Verde Volcán</title>
-<meta name="description" content="Una gota se hace hoja; la hoja, volcán. Hidroponía NFT en las Islas Canarias.">
+<title>Verde Volcán × Alisio Hydro — Producto canario, cultivado sin barco</title>
+<meta name="description" content="Hidroponía NFT en las Islas Canarias. Para agricultores, supermercados, distribuidores y HORECA: producto canario real, cosechado a horas de tu mesa.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Hanken+Grotesk:wght@300;400;500;600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   V3 · METAMORFOSIS — escultura de partículas
-   Una gota → una hoja → un volcán. 14.000 partículas, un scroll.
+   V3 · METAMORFOSIS — edición portada
+   Una gota → una hoja → un volcán. Tres audiencias, una etiqueta.
    Sistema: Terroir Técnico (design-system/tokens.css)
    ============================================================ */
 :root{
@@ -43,20 +43,21 @@ body::after{content:""; position:fixed; inset:0; z-index:999; pointer-events:non
   opacity:.05; mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-/* etiqueta de fase de la metamorfosis */
-.fase{position:fixed; left:var(--margin-page); bottom:1.4rem; z-index:90;
-  font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--ceniza); display:flex; gap:.7rem; align-items:center}
-.fase::before{content:""; width:.5rem; height:.5rem; border-radius:50%; background:var(--alisio-300);
-  transition:background .6s}
-.fase[data-f="1"]::before{background:var(--brote)}
-.fase[data-f="2"]::before{background:var(--lava)}
-@media(max-width:700px){.fase{display:none}}
+/* ============ PRELOADER ============ */
+.carga{position:fixed; inset:0; z-index:1000; background:var(--basalto);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.4rem;
+  transition:opacity .7s var(--ease-alisio), visibility .7s}
+.carga.lista{opacity:0; visibility:hidden}
+.carga__marca{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--ceniza)}
+.carga__marca em{font-style:normal; color:var(--brote)}
+.carga__pct{font-family:var(--font-display); font-size:clamp(3.5rem,9vw,6rem);
+  font-weight:430; font-style:italic; font-variation-settings:'SOFT' 60,'WONK' 1;
+  color:var(--papel); line-height:1; font-variant-numeric:tabular-nums}
+.carga__barra{width:min(280px,60vw); height:1px; background:color-mix(in srgb, var(--ceniza) 30%, transparent); overflow:hidden}
+.carga__barra i{display:block; height:100%; width:0; background:var(--brote); transition:width .25s var(--ease-alisio)}
 
-.progreso{position:fixed; top:0; left:0; right:0; height:2px; z-index:300}
-.progreso i{display:block; height:100%; width:0;
-  background:linear-gradient(90deg,var(--alisio-300),var(--brote),var(--lava))}
-
+/* ============ utilidades ============ */
 .eyebrow{font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase;
   letter-spacing:.14em; color:var(--brote); display:flex; align-items:center; gap:.75rem}
 .eyebrow::before{content:""; width:2rem; height:1px; background:currentColor; opacity:.6}
@@ -69,18 +70,56 @@ html.js .reveal{opacity:0; transform:translateY(28px);
   transition-delay:calc(var(--stagger,0)*100ms)}
 html.js .reveal.is-visible{opacity:1; transform:none}
 html.js .palabra{display:inline-block; overflow:hidden; vertical-align:bottom}
-html.js .palabra i{display:inline-block; font-style:inherit; transform:translateY(110%);
-  transition:transform 1s var(--ease-alisio) calc(var(--stagger,0)*120ms)}
+html.js .palabra i{display:inline-block; font-style:inherit; transform:translateY(112%);
+  transition:transform 1.05s var(--ease-alisio) calc(var(--stagger,0)*120ms)}
 html.js .palabra.is-visible i{transform:none}
 
+/* línea que se subraya sola */
+.subraya{background:linear-gradient(currentColor,currentColor) no-repeat left 88%/0% 2px;
+  transition:background-size 1s var(--ease-alisio) .3s}
+.is-visible .subraya, .subraya.is-visible{background-size:100% 2px}
+
+/* ============ fase + progreso + hitos ============ */
+.fase{position:fixed; left:var(--margin-page); bottom:1.4rem; z-index:90;
+  font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ceniza); display:flex; gap:.7rem; align-items:center}
+.fase::before{content:""; width:.5rem; height:.5rem; border-radius:50%; background:var(--alisio-300); transition:background .6s}
+.fase[data-f="1"]::before{background:var(--brote)}
+.fase[data-f="2"]::before{background:var(--lava)}
+@media(max-width:700px){.fase{display:none}}
+.progreso{position:fixed; top:0; left:0; right:0; height:2px; z-index:300}
+.progreso i{display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--alisio-300),var(--brote),var(--lava))}
+.hitos{position:fixed; right:1.2rem; top:50%; transform:translateY(-50%); z-index:90;
+  display:flex; flex-direction:column; gap:1.1rem}
+.hitos a{width:7px; height:7px; border-radius:50%; border:1px solid var(--ceniza);
+  display:block; transition:all .3s var(--ease-alisio)}
+.hitos a.act{background:var(--brote); border-color:var(--brote); transform:scale(1.35)}
+@media(max-width:900px){.hitos{display:none}}
+
+/* ============ nav ============ */
 .nav{position:fixed; top:2px; left:0; right:0; z-index:100; display:flex;
-  justify-content:space-between; align-items:center; padding:1.1rem var(--margin-page)}
+  justify-content:space-between; align-items:center; padding:1.1rem var(--margin-page);
+  transition:background .5s var(--ease-alisio)}
+.nav.is-scrolled{background:color-mix(in srgb, var(--basalto) 85%, transparent); backdrop-filter:blur(12px)}
 .nav__brand{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em;
   text-transform:uppercase; color:var(--papel); text-decoration:none}
 .nav__brand em{font-style:normal; color:var(--brote)}
+.nav__links{display:flex; gap:2.2rem; align-items:center}
+.nav__links > a:not(.btn){color:var(--ceniza); text-decoration:none; font-size:.85rem; position:relative;
+  transition:color .2s}
+.nav__links > a:not(.btn):hover{color:var(--papel)}
+.nav__links > a:not(.btn)::after{content:""; position:absolute; left:0; bottom:-4px; height:1px; width:100%;
+  background:var(--brote); transform:scaleX(0); transform-origin:left; transition:transform .45s var(--ease-alisio)}
+.nav__links > a:not(.btn):hover::after{transform:scaleX(1)}
+@media(max-width:860px){.nav__links > a:not(.btn){display:none}}
+
 .btn{display:inline-flex; align-items:center; gap:.6rem; font-family:var(--font-mono);
   font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; text-decoration:none;
-  padding:.7rem 1.3rem; border-radius:2px; transition:all .22s var(--ease-alisio)}
+  padding:.8rem 1.5rem; border-radius:2px; transition:background .25s var(--ease-alisio),
+  color .25s var(--ease-alisio), border-color .25s var(--ease-alisio); will-change:transform}
+.btn .fl{transition:transform .25s var(--ease-alisio)}
+.btn:hover .fl{transform:translateX(4px)}
 .btn--brote{background:var(--brote); color:var(--basalto) !important}
 .btn--brote:hover{background:#d6f06a}
 .btn--ghost{border:1px solid color-mix(in srgb, var(--papel) 35%, transparent); color:var(--papel) !important}
@@ -91,23 +130,18 @@ html.js .palabra.is-visible i{transform:none}
   .nav .btn{padding:.5rem .8rem; font-size:.58rem}
 }
 
-.hitos{position:fixed; right:1.2rem; top:50%; transform:translateY(-50%); z-index:90;
-  display:flex; flex-direction:column; gap:1.1rem}
-.hitos a{width:7px; height:7px; border-radius:50%; border:1px solid var(--ceniza);
-  display:block; transition:all .3s var(--ease-alisio)}
-.hitos a.act{background:var(--brote); border-color:var(--brote); transform:scale(1.35)}
-@media(max-width:900px){.hitos{display:none}}
-
+/* ============ capítulos ============ */
 .cap{min-height:100svh; display:flex; align-items:center; position:relative; z-index:1;
-  padding:6rem var(--margin-page)}
+  padding:6.5rem var(--margin-page)}
 .cap__inner{max-width:1280px; margin:0 auto; width:100%}
 
-.cap--hero{align-items:flex-end; padding-bottom:5rem}
-.cap--hero h1{font-size:clamp(3rem,9vw,7.6rem); line-height:.97; max-width:13ch}
+/* ---- hero ---- */
+.cap--hero{align-items:flex-end; padding-bottom:6.5rem}
+.cap--hero h1{font-size:clamp(2.9rem,8.6vw,7.4rem); line-height:.97; max-width:13ch}
 .cap--hero h1 .azul{color:var(--alisio-300)}
 .cap--hero h1 .verde{color:var(--brote)}
 .cap--hero h1 .rojo{color:var(--lava)}
-.cap--hero .sub{max-width:42ch; color:var(--ceniza); margin-top:2rem; font-size:1.12rem}
+.cap--hero .sub{max-width:44ch; color:var(--ceniza); margin-top:2rem; font-size:1.12rem}
 .cap--hero .cta{display:flex; gap:1rem; margin-top:2.6rem; flex-wrap:wrap}
 .cap--hero .scrollcue{position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
   font-family:var(--font-mono); font-size:.6rem; letter-spacing:.18em; color:var(--ceniza);
@@ -117,13 +151,35 @@ html.js .palabra.is-visible i{transform:none}
 @keyframes cae{0%{transform:scaleY(0); transform-origin:top}45%{transform:scaleY(1); transform-origin:top}
   55%{transform:scaleY(1); transform-origin:bottom}100%{transform:scaleY(0); transform-origin:bottom}}
 
+/* sello producto canario (gira) */
+.sello{position:absolute; top:16vh; right:clamp(1.5rem,8vw,9rem); width:clamp(6.5rem,11vw,9.5rem); z-index:2}
+.sello svg{width:100%; height:auto; animation:gira 30s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.sello text{font-family:var(--font-mono); font-size:9.2px; letter-spacing:.24em; fill:var(--brote)}
+.sello .aro{fill:none; stroke:color-mix(in srgb, var(--brote) 55%, transparent); stroke-width:.7}
+.sello .volcanito{fill:none; stroke:var(--brote); stroke-width:1.6; stroke-linejoin:round}
+.sello .gotita{fill:var(--alisio-300)}
+@media(max-width:700px){.sello{top:12vh; right:1rem; width:5.5rem}}
+
+/* ---- marquee ---- */
+.marquee{position:relative; z-index:1; border-top:1px solid color-mix(in srgb, var(--ceniza) 22%, transparent);
+  border-bottom:1px solid color-mix(in srgb, var(--ceniza) 22%, transparent);
+  overflow:hidden; padding:1.05rem 0; background:color-mix(in srgb, var(--basalto) 80%, transparent);
+  backdrop-filter:blur(6px)}
+.marquee__track{display:flex; gap:3.2rem; width:max-content; animation:marquee 46s linear infinite}
+.marquee:hover .marquee__track{animation-play-state:paused}
+.marquee__track span{font-family:var(--font-mono); font-size:.76rem; white-space:nowrap;
+  text-transform:uppercase; letter-spacing:.13em; color:var(--ceniza)}
+.marquee__track span i{font-style:normal; color:var(--brote); margin-right:3.2rem}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ---- panel ---- */
 .panel{background:color-mix(in srgb, var(--basalto) 72%, transparent);
   backdrop-filter:blur(14px); border:1px solid color-mix(in srgb, var(--ceniza) 25%, transparent);
   border-radius:2px; padding:clamp(2rem,4.5vw,3.8rem)}
 .panel h2{font-size:clamp(2rem,4.6vw,3.6rem); margin-top:1.4rem}
 .panel .cuerpo{color:var(--ceniza); margin-top:1.3rem; max-width:52ch}
-.panel--der{margin-left:auto; max-width:600px}
-.panel--izq{margin-right:auto; max-width:600px}
+.panel--der{margin-left:auto; max-width:620px}
 
 .minidatos{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2.2rem;
   border-top:1px solid color-mix(in srgb, var(--ceniza) 30%, transparent); padding-top:1.5rem}
@@ -135,25 +191,116 @@ html.js .palabra.is-visible i{transform:none}
   text-transform:uppercase; color:var(--ceniza); display:block; margin-top:.6rem}
 .minidatos .md b.azul{color:var(--alisio-300)}
 
+/* ---- audiencias ---- */
+.aud__head{max-width:760px; margin-bottom:3.2rem}
+.aud__head h2{font-size:clamp(2.2rem,5vw,3.8rem); margin-top:1.4rem}
+.aud{display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem}
+@media(max-width:960px){.aud{grid-template-columns:1fr}}
+.aud__card{position:relative; display:flex; flex-direction:column; gap:1rem; text-decoration:none;
+  color:inherit; border:1px solid color-mix(in srgb, var(--ceniza) 28%, transparent); border-radius:2px;
+  background:color-mix(in srgb, var(--basalto) 76%, transparent); backdrop-filter:blur(12px);
+  padding:2.2rem 1.9rem 1.9rem; overflow:hidden;
+  transition:border-color .4s var(--ease-alisio), transform .4s var(--ease-alisio)}
+.aud__card:hover{border-color:var(--brote); transform:translateY(-4px)}
+.aud__card::before{content:""; position:absolute; top:0; left:0; right:0; height:2px;
+  background:var(--brote); transform:scaleX(0); transform-origin:left;
+  transition:transform .55s var(--ease-alisio)}
+.aud__card:hover::before{transform:scaleX(1)}
+.aud__num{font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; color:var(--ceniza)}
+.aud__card h3{font-size:1.65rem; min-height:2.2em}
+.aud__card h3 .italica{color:var(--brote)}
+.aud__card:nth-child(1) h3 .italica{color:var(--alisio-300)}
+.aud__card:nth-child(3) h3 .italica{color:var(--lava)}
+.aud__card p{color:var(--ceniza); font-size:.95rem; flex:1}
+.aud__lista{list-style:none; margin:.4rem 0 1rem}
+.aud__lista li{font-family:var(--font-mono); font-size:.7rem; letter-spacing:.06em;
+  text-transform:uppercase; color:color-mix(in srgb, var(--papel) 75%, transparent);
+  padding:.5rem 0; border-top:1px dotted color-mix(in srgb, var(--ceniza) 40%, transparent);
+  display:flex; gap:.7rem}
+.aud__lista li::before{content:"→"; color:var(--brote)}
+.aud__cta{font-family:var(--font-mono); font-size:.68rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--brote); display:inline-flex; gap:.6rem; align-items:center}
+.aud__cta i{font-style:normal; transition:transform .25s var(--ease-alisio)}
+.aud__card:hover .aud__cta i{transform:translateX(5px)}
+
+/* ---- etiqueta (banda papel) ---- */
+.banda{position:relative; z-index:1; background:var(--papel); color:var(--basalto);
+  padding:clamp(5rem,11vh,8.5rem) var(--margin-page)}
+.banda__inner{max-width:1280px; margin:0 auto; display:grid;
+  grid-template-columns:minmax(0,.52fr) minmax(0,.48fr); gap:4rem; align-items:center}
+@media(max-width:900px){.banda__inner{grid-template-columns:1fr; gap:3rem}}
+.banda .eyebrow{color:var(--volcan-500)}
+.banda h2{font-size:clamp(2.2rem,5vw,3.8rem); margin-top:1.4rem}
+.banda h2 .italica{color:var(--volcan-500)}
+.banda p{color:var(--humo); margin-top:1.3rem; max-width:50ch}
+.banda small{display:block; margin-top:1.6rem; font-family:var(--font-mono); font-size:.62rem;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ceniza)}
+
+/* etiqueta-sticker */
+.etiqueta{justify-self:center; width:min(380px,100%); background:var(--papel);
+  border:1.5px solid var(--basalto); border-radius:3px; transform:rotate(-2deg);
+  transition:transform .5s var(--ease-alisio); box-shadow:6px 6px 0 color-mix(in srgb, var(--basalto) 12%, transparent)}
+.etiqueta:hover{transform:rotate(0)}
+.etiqueta__top{display:flex; justify-content:space-between; align-items:center;
+  border-bottom:1.5px solid var(--basalto); padding:.8rem 1.1rem;
+  font-family:var(--font-mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase}
+.etiqueta__top .pc{background:var(--volcan-900); color:var(--brote); padding:.3rem .55rem; border-radius:2px}
+.etiqueta__nombre{padding:1.2rem 1.1rem .4rem; font-family:var(--font-display);
+  font-size:1.9rem; font-weight:500; line-height:1}
+.etiqueta__nombre em{font-style:italic; font-variation-settings:'SOFT' 60,'WONK' 1; color:var(--volcan-500)}
+.etiqueta__specs{list-style:none; padding:0 1.1rem 1rem}
+.etiqueta__specs li{display:flex; justify-content:space-between; gap:1rem;
+  font-family:var(--font-mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--humo); padding:.45rem 0; border-top:1px dotted color-mix(in srgb, var(--humo) 45%, transparent)}
+.etiqueta__specs li b{color:var(--basalto); font-weight:400}
+.etiqueta__specs li b.ok{color:var(--volcan-500)}
+.etiqueta__barcode{display:flex; align-items:flex-end; gap:1rem; padding:.9rem 1.1rem 1rem;
+  border-top:1.5px solid var(--basalto)}
+.etiqueta__barcode .barras{flex:1; height:34px;
+  background:repeating-linear-gradient(90deg, var(--basalto) 0 2px, transparent 2px 5px,
+    var(--basalto) 5px 6px, transparent 6px 11px, var(--basalto) 11px 14px, transparent 14px 17px)}
+.etiqueta__barcode span{font-family:var(--font-mono); font-size:.6rem; letter-spacing:.18em; color:var(--humo)}
+
+/* ---- casos ---- */
+.casos__head{max-width:760px; margin-bottom:3rem}
+.casos__head h2{font-size:clamp(2.2rem,5vw,3.8rem); margin-top:1.4rem}
 .casos{display:grid; grid-template-columns:1fr 1fr; gap:1.5rem}
 @media(max-width:860px){.casos{grid-template-columns:1fr}}
 .caso{border:1px solid color-mix(in srgb, var(--ceniza) 30%, transparent); border-radius:2px;
-  overflow:hidden; background:color-mix(in srgb, var(--basalto) 80%, transparent); backdrop-filter:blur(10px)}
-.caso img{width:100%; height:240px; object-fit:cover; filter:contrast(1.04) saturate(1.05)}
-.caso figcaption{padding:1.3rem 1.5rem; display:flex; flex-direction:column; gap:.4rem}
+  overflow:hidden; background:color-mix(in srgb, var(--basalto) 80%, transparent);
+  backdrop-filter:blur(10px); text-decoration:none; color:inherit;
+  transition:border-color .4s var(--ease-alisio)}
+.caso:hover{border-color:var(--brote)}
+.caso .media{overflow:hidden; aspect-ratio:16/9}
+.caso img{width:100%; height:100%; object-fit:cover; filter:contrast(1.04) saturate(1.05);
+  transition:transform 1.2s var(--ease-alisio)}
+.caso:hover img{transform:scale(1.05)}
+.caso figcaption{padding:1.4rem 1.6rem; display:flex; flex-direction:column; gap:.4rem}
 .caso .meta{font-family:var(--font-mono); font-size:.64rem; letter-spacing:.12em;
   text-transform:uppercase; color:var(--ceniza); display:flex; justify-content:space-between; gap:1rem}
 .caso .meta em{font-style:normal; color:var(--brote)}
-.caso h3{font-size:1.4rem}
+.caso h3{font-size:1.45rem}
+.caso p{color:var(--ceniza); font-size:.92rem}
 
+/* ---- cierre ---- */
 .cap--fin{align-items:center; text-align:center}
 .cap--fin .eyebrow{justify-content:center}
 .cap--fin .eyebrow::before{display:none}
-.cap--fin h2{font-size:clamp(2.6rem,7vw,5.6rem); max-width:16ch; margin:1.4rem auto 0}
+.cap--fin h2{font-size:clamp(2.4rem,6.6vw,5.4rem); max-width:17ch; margin:1.4rem auto 0}
 .cap--fin h2 .verde{color:var(--brote)}
-.cap--fin p{color:var(--ceniza); max-width:46ch; margin:1.6rem auto 0}
-.cap--fin .cta{display:flex; gap:1rem; justify-content:center; margin-top:2.6rem; flex-wrap:wrap}
-.cap--fin .firma{margin-top:3.5rem; font-family:var(--font-mono); font-size:.7rem;
+.cap--fin > .cap__inner > p{color:var(--ceniza); max-width:46ch; margin:1.6rem auto 0}
+.fin__vias{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; max-width:880px; margin:3rem auto 0}
+@media(max-width:860px){.fin__vias{grid-template-columns:1fr}}
+.via{border:1px solid color-mix(in srgb, var(--ceniza) 30%, transparent); border-radius:2px;
+  padding:1.5rem 1.3rem; text-decoration:none; color:inherit; text-align:left;
+  background:color-mix(in srgb, var(--basalto) 76%, transparent); backdrop-filter:blur(10px);
+  transition:border-color .35s var(--ease-alisio), transform .35s var(--ease-alisio)}
+.via:hover{border-color:var(--brote); transform:translateY(-3px)}
+.via b{display:block; font-family:var(--font-mono); font-size:.62rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--brote); font-weight:400; margin-bottom:.5rem}
+.via span{font-size:.95rem; color:var(--papel)}
+.via i{font-style:normal; float:right; color:var(--brote)}
+.cap--fin .firma{margin-top:3.2rem; font-family:var(--font-mono); font-size:.7rem;
   letter-spacing:.1em; color:var(--ceniza); line-height:2}
 .cap--fin .firma b{color:var(--papel); font-weight:400}
 
@@ -178,50 +325,84 @@ html.js .palabra.is-visible i{transform:none}
   *,*::before,*::after{animation:none !important; transition-duration:150ms !important}
   html.js .reveal{opacity:1; transform:none}
   html.js .palabra i{transform:none}
+  .carga{display:none}
 }
 </style>
 </head>
 <body>
 
+<div class="carga" id="carga" aria-hidden="true">
+  <span class="carga__marca">VERDE VOLCÁN <em>×</em> ALISIO HYDRO</span>
+  <span class="carga__pct" id="cargaPct">0</span>
+  <div class="carga__barra"><i id="cargaBarra"></i></div>
+</div>
+
 <canvas id="escena" aria-hidden="true"></canvas>
 <div class="progreso" aria-hidden="true"><i id="barra"></i></div>
 <div class="fase" id="fase" data-f="0" aria-hidden="true"><span id="faseTxt">FASE 01 — LA GOTA</span></div>
 
-<nav class="nav">
-  <a class="nav__brand" href="#top">ALISIO HYDRO <em>×</em> VERDE VOLCÁN</a>
-  <a class="btn btn--brote" href="#contacto">Pide tu estudio →</a>
+<nav class="nav" id="nav">
+  <a class="nav__brand" href="#top">VERDE VOLCÁN <em>×</em> ALISIO HYDRO</a>
+  <div class="nav__links">
+    <a href="#circuito">El sistema</a>
+    <a href="#para-quien">Para quién</a>
+    <a href="#etiqueta">La etiqueta</a>
+    <a href="#casos">Proyectos</a>
+    <a class="btn btn--brote" data-magnet href="#contacto">Hablemos →</a>
+  </div>
 </nav>
 
 <nav class="hitos" aria-label="Fases">
   <a href="#top" class="act" aria-label="Inicio"></a>
   <a href="#circuito" aria-label="El circuito"></a>
-  <a href="#marcas" aria-label="Las marcas"></a>
-  <a href="#casos" aria-label="Casos reales"></a>
+  <a href="#para-quien" aria-label="Para quién"></a>
+  <a href="#etiqueta" aria-label="La etiqueta"></a>
   <a href="#contacto" aria-label="Contacto"></a>
 </nav>
 
-<!-- FASE 0 · LA GOTA -->
+<!-- ============ FASE 0 · LA GOTA (hero) ============ -->
 <section class="cap cap--hero" id="top">
+  <div class="sello" aria-hidden="true">
+    <svg viewBox="0 0 120 120">
+      <defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+      <circle class="aro" cx="60" cy="60" r="56"/>
+      <circle class="aro" cx="60" cy="60" r="37"/>
+      <text><textPath href="#circ">PRODUCTO CANARIO · KM 0 · SIN BARCO · COSECHA DIARIA · </textPath></text>
+      <path class="volcanito" d="M44,72 L57,49 L63,58 L68,49 L78,72 Z"/>
+      <circle class="gotita" cx="60" cy="40" r="3.2"/>
+    </svg>
+  </div>
   <div class="cap__inner">
-    <p class="eyebrow reveal" style="--stagger:0">Metamorfosis · Hidroponía NFT en Canarias</p>
+    <p class="eyebrow reveal" style="--stagger:0">Hidroponía NFT · Islas Canarias</p>
     <h1 style="margin-top:1.6rem">
       <span class="palabra" style="--stagger:1"><i>La <span class="italica azul">gota</span>&nbsp;</i></span>
       <span class="palabra" style="--stagger:2"><i>se hace <span class="italica verde">hoja</span>;&nbsp;</i></span><br>
       <span class="palabra" style="--stagger:3"><i>la hoja, <span class="italica rojo">volcán</span>.</i></span>
     </h1>
     <p class="sub reveal" style="--stagger:4">
-      Lo que tienes delante son 14.000 partículas. Lo que cuentan es nuestro
-      sistema: el agua que circula, la planta que crece, la isla que la sostiene.
+      Cultivamos verdura canaria de verdad — sin barco, sin cámaras de semanas —
+      y montamos el sistema a quien quiera cultivarla. Del campo a la tienda y a la mesa.
     </p>
     <div class="cta reveal" style="--stagger:5">
-      <a class="btn btn--brote" href="#contacto">Pide el estudio de tu finca →</a>
-      <a class="btn btn--ghost" href="#circuito">Ver la metamorfosis</a>
+      <a class="btn btn--brote" data-magnet href="#para-quien">Encuentra tu camino →</a>
+      <a class="btn btn--ghost" data-magnet href="#circuito">Ver la metamorfosis</a>
     </div>
   </div>
   <div class="scrollcue">scroll</div>
 </section>
 
-<!-- FASE 1 · EL CIRCUITO (gota) -->
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track" id="marquee">
+    <span>Lechuga batavia <i>·</i></span><span>Fresa de medianías <i>·</i></span>
+    <span>Tomate cherry <i>·</i></span><span>Albahaca <i>·</i></span>
+    <span>Pak choi <i>·</i></span><span>Producto canario <i>·</i></span>
+    <span>−90 % agua <i>·</i></span><span>Cosecha &lt; 24 h <i>·</i></span>
+    <span>Trazabilidad por lote <i>·</i></span><span>Sin barco de por medio <i>·</i></span>
+  </div>
+</div>
+
+<!-- ============ FASE 1 · EL CIRCUITO ============ -->
 <section class="cap" id="circuito">
   <div class="cap__inner">
     <div class="panel panel--der reveal">
@@ -229,7 +410,8 @@ html.js .palabra.is-visible i{transform:none}
       <h2>Cada gota trabaja <span class="italica" style="color:var(--alisio-300)">mil veces</span>.</h2>
       <p class="cuerpo">En un circuito NFT el agua no se gasta: circula. Una lámina de
       2–3 mm recorre los canales, la raíz toma lo que necesita y el resto vuelve
-      al depósito para empezar de nuevo.</p>
+      al depósito para empezar de nuevo. Por eso producimos todo el año con una
+      fracción del agua — en las islas, eso no es un detalle.</p>
       <div class="minidatos">
         <div class="md"><b><span class="dato" data-count="90">0</span><span class="u">%</span></b><span>menos agua que en suelo</span></div>
         <div class="md"><b class="azul"><span class="dato" data-count="3">0</span><span class="u">mm</span></b><span>de lámina de cultivo</span></div>
@@ -239,60 +421,131 @@ html.js .palabra.is-visible i{transform:none}
   </div>
 </section>
 
-<!-- FASE 2 · LAS MARCAS (hoja) -->
-<section class="cap" id="marcas">
+<!-- ============ FASE 2 · PARA QUIÉN ============ -->
+<section class="cap" id="para-quien" style="flex-direction:column; justify-content:center">
   <div class="cap__inner">
-    <div class="panel panel--izq reveal">
-      <p class="eyebrow">FASE 02 — La hoja</p>
-      <h2>Dos marcas riegan <span class="italica" style="color:var(--brote)">la misma raíz</span>.</h2>
-      <p class="cuerpo"><b style="color:var(--alisio-300); font-weight:400">Alisio Hydro</b> diseña e
-      instala el sistema llave en mano: estudio de microclima, obra, telemetría y subvenciones.
-      <br><br><b style="color:var(--brote); font-weight:400">Verde Volcán</b> cultiva y entrega:
-      lechuga, tomate, fresa y aromáticas, cosechadas menos de 24 h antes de llegar
-      a tu cocina.</p>
-      <div class="cta" style="display:flex; gap:1rem; margin-top:2.2rem; flex-wrap:wrap">
-        <a class="btn btn--ghost" href="mailto:hola@alisiohydro.com">Hablar con ingeniería</a>
-        <a class="btn btn--ghost" href="mailto:hola@verdevolcan.com">Hablar con cultivo</a>
-      </div>
+    <div class="aud__head">
+      <p class="eyebrow reveal">FASE 02 — La hoja</p>
+      <h2 class="reveal" style="--stagger:1">Para el campo, para la tienda, <span class="italica" style="color:var(--brote)">para la mesa</span>.</h2>
+    </div>
+    <div class="aud">
+      <a class="aud__card reveal" style="--stagger:1" href="mailto:hola@alisiohydro.com?subject=Estudio%20de%20viabilidad%20de%20finca">
+        <span class="aud__num">01 — AGRICULTORES Y PROPIETARIOS</span>
+        <h3>Tu suelo puede dar <span class="italica">12 cosechas</span> al año.</h3>
+        <p>Alisio Hydro estudia tu finca y tu microclima, instala el sistema NFT
+        llave en mano y te enseña a operarlo. Con telemetría, mantenimiento y
+        ayuda con las subvenciones agrarias.</p>
+        <ul class="aud__lista">
+          <li>Estudio de viabilidad gratuito</li>
+          <li>Instalación llave en mano</li>
+          <li>Tramitación de subvenciones</li>
+        </ul>
+        <span class="aud__cta">Pide el estudio de tu finca <i>→</i></span>
+      </a>
+      <a class="aud__card reveal" style="--stagger:2" href="mailto:hola@verdevolcan.com?subject=Suministro%20retail%20%2F%20distribución">
+        <span class="aud__num">02 — SUPERMERCADOS Y DISTRIBUIDORES</span>
+        <h3>Producto local <span class="italica">estable</span>, todo el año.</h3>
+        <p>Verde Volcán suministra hoja verde, tomate y fresa con volumen
+        constante y trazabilidad por lote. Sin depender del barco ni de la
+        península: cosecha programada cada semana, también en invierno.</p>
+        <ul class="aud__lista">
+          <li>Volumen pactado por contrato</li>
+          <li>Etiqueta de origen en cada lote</li>
+          <li>Merma mínima: cosecha &lt; 24 h</li>
+        </ul>
+        <span class="aud__cta">Quiero vender producto canario <i>→</i></span>
+      </a>
+      <a class="aud__card reveal" style="--stagger:3" href="mailto:hola@verdevolcan.com?subject=Suministro%20HORECA%20%2F%20distribución%20local">
+        <span class="aud__num">03 — HORECA Y DISTRIBUCIÓN LOCAL</span>
+        <h3>KM 0 real para tus <span class="italica">cartas y hoteles</span>.</h3>
+        <p>Para distribuidores de fruta y verdura, hoteles y grupos de
+        restauración que quieren ofrecer producto de la tierra con historia
+        demostrable: de la lámina de agua a la mesa en el mismo día.</p>
+        <ul class="aud__lista">
+          <li>Reparto a cocina &lt; 24 h de cosecha</li>
+          <li>Variedades a pedido del chef</li>
+          <li>Visitas al cultivo con tus clientes</li>
+        </ul>
+        <span class="aud__cta">Hablemos de suministro <i>→</i></span>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- FASE 3 · CASOS -->
-<section class="cap" id="casos">
+<!-- ============ LA ETIQUETA (banda papel) ============ -->
+<section class="banda" id="etiqueta">
+  <div class="banda__inner">
+    <div class="reveal">
+      <p class="eyebrow">EL SELLO QUE LO CUENTA TODO</p>
+      <h2>Si no nació en la isla, no lleva <span class="italica">la etiqueta</span>.</h2>
+      <p>Cada lote de Verde Volcán sale del invernadero con su etiqueta de origen:
+      qué es, dónde se cultivó, cuándo se cosechó y cuántos kilómetros ha recorrido.
+      El "producto local" deja de ser una promesa de cartel y pasa a ser un dato
+      que tu cliente puede leer.</p>
+      <p>Para supermercados y distribuidores, eso significa diferenciación real en
+      el lineal. Para restaurantes y hoteles, una historia que se puede contar en
+      la carta sin exagerar ni una coma.</p>
+      <small>ETIQUETA PROPIA DE ORIGEN — COMPATIBLE CON LOS SELLOS OFICIALES DE PRODUCTO CANARIO</small>
+    </div>
+    <div class="etiqueta reveal" style="--stagger:2" aria-label="Ejemplo de etiqueta de lote">
+      <div class="etiqueta__top"><span>VERDE VOLCÁN</span><span class="pc">★ PRODUCTO CANARIO</span></div>
+      <div class="etiqueta__nombre">Lechuga <em>batavia</em></div>
+      <ul class="etiqueta__specs">
+        <li><span>Lote</span><b class="dato">VV-26-0611-G</b></li>
+        <li><span>Cultivo</span><b>Guinea · bajo invernadero</b></li>
+        <li><span>Cosecha</span><b class="ok">Hoy · 06:40</b></li>
+        <li><span>Recorrido</span><b class="ok dato">18 km · 0 barcos</b></li>
+        <li><span>Agua empleada</span><b class="dato">−90 % vs. suelo</b></li>
+      </ul>
+      <div class="etiqueta__barcode"><div class="barras"></div><span class="dato">8 436012 260611</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASOS ============ -->
+<section class="cap" id="casos" style="flex-direction:column; justify-content:center">
   <div class="cap__inner">
-    <p class="eyebrow reveal" style="margin-bottom:1.5rem">PRUEBA REAL — SIN RENDERS</p>
+    <div class="casos__head">
+      <p class="eyebrow reveal">PRUEBA REAL — SIN RENDERS</p>
+      <h2 class="reveal" style="--stagger:1">Esto ya está <span class="italica" style="color:var(--brote)">creciendo</span>.</h2>
+    </div>
     <div class="casos">
       <figure class="caso reveal" style="--stagger:1">
-        <img src="../assets/firgas-aereo.jpg" alt="Vista aérea de la instalación NFT de fresa en Firgas, Gran Canaria">
+        <div class="media"><img src="../assets/firgas-aereo.jpg" alt="Vista aérea de la instalación NFT de fresa en Firgas, Gran Canaria"></div>
         <figcaption>
           <span class="meta"><span>FIRGAS · GRAN CANARIA</span><em>FRESA</em></span>
           <h3>Fresa de medianías</h3>
+          <p>NFT en exterior aprovechando altitud y humedad del norte de Gran Canaria.</p>
         </figcaption>
       </figure>
       <figure class="caso reveal" style="--stagger:2">
-        <img src="../assets/guinea-lechugas.jpg" alt="Lechugas batavia en canales NFT bajo invernadero, proyecto Guinea">
+        <div class="media"><img src="../assets/guinea-lechugas.jpg" alt="Lechugas batavia en canales NFT bajo invernadero, proyecto Guinea"></div>
         <figcaption>
-          <span class="meta"><span>GUINEA · 500 M²</span><em>TOMATE · LECHUGA</em></span>
+          <span class="meta"><span>GUINEA · 500 M² BAJO INVERNADERO</span><em>TOMATE · LECHUGA</em></span>
           <h3>Hoja verde a escala</h3>
+          <p>500 m² produciendo en continuo. La prueba de que el modelo escala en las islas.</p>
         </figcaption>
       </figure>
     </div>
   </div>
 </section>
 
-<!-- FASE 4 · EL VOLCÁN (cierre) -->
+<!-- ============ FASE 3 · EL VOLCÁN (cierre) ============ -->
 <section class="cap cap--fin" id="contacto">
   <div class="cap__inner">
     <p class="eyebrow reveal">FASE 03 — EL VOLCÁN</p>
-    <h2 class="reveal" style="--stagger:1">La isla ya pone la tierra. <span class="italica verde">Pon tú la finca.</span></h2>
-    <p class="reveal" style="--stagger:2">Estudio de viabilidad gratuito con números de instalaciones
-    reales. O un plan de suministro semanal si lo tuyo es la cocina.</p>
-    <div class="cta reveal" style="--stagger:3">
-      <a class="btn btn--brote" href="mailto:hola@alisiohydro.com?subject=Estudio%20de%20viabilidad">Pide el estudio de tu finca →</a>
-      <a class="btn btn--ghost" href="mailto:hola@verdevolcan.com?subject=Suministro%20HORECA">Suministro HORECA</a>
+    <h2 class="reveal" style="--stagger:1">La isla ya pone la tierra. <span class="italica verde">Pon tú el resto.</span></h2>
+    <p class="reveal" style="--stagger:2">Elige tu camino y te respondemos con números de
+    instalaciones reales, no de catálogo.</p>
+    <div class="fin__vias">
+      <a class="via reveal" style="--stagger:2" href="mailto:hola@alisiohydro.com?subject=Estudio%20de%20viabilidad">
+        <b>Agricultores</b><span>Estudio de tu finca</span><i>→</i></a>
+      <a class="via reveal" style="--stagger:3" href="mailto:hola@verdevolcan.com?subject=Suministro%20retail">
+        <b>Retail · Distribución</b><span>Suministro con etiqueta de origen</span><i>→</i></a>
+      <a class="via reveal" style="--stagger:4" href="mailto:hola@verdevolcan.com?subject=Suministro%20HORECA">
+        <b>HORECA · Hoteles</b><span>KM 0 para tus cartas</span><i>→</i></a>
     </div>
-    <p class="firma reveal" style="--stagger:4">
+    <p class="firma reveal" style="--stagger:5">
       CONTACTO TÉCNICO — <b>Néstor Rodríguez</b> · Ingeniería e instalaciones<br>
       hola@alisiohydro.com · hola@verdevolcan.com · Islas Canarias
     </p>
@@ -312,11 +565,29 @@ html.js .palabra.is-visible i{transform:none}
 <script>
 document.documentElement.classList.add('js');
 
+/* ---- preloader ---- */
+(()=>{
+  const carga=document.getElementById('carga'), pct=document.getElementById('cargaPct'),
+        bar=document.getElementById('cargaBarra');
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){carga.remove(); return;}
+  let v=0, fin=false;
+  const tick=setInterval(()=>{
+    v=Math.min(v+Math.random()*16, fin?100:92);
+    pct.textContent=Math.round(v); bar.style.width=v+'%';
+    if(v>=100){clearInterval(tick); setTimeout(()=>carga.classList.add('lista'),150);
+      setTimeout(()=>carga.remove(),1000);}
+  },90);
+  addEventListener('load',()=>{fin=true});
+  setTimeout(()=>{fin=true},2600);               // red de seguridad
+})();
+
+/* ---- reveals + palabras ---- */
 const io = new IntersectionObserver((es)=>{
   for(const e of es){ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target);} }
 },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal,.palabra').forEach(el=>io.observe(el));
 
+/* ---- contadores ---- */
 const ioC = new IntersectionObserver((es)=>{
   for(const e of es){ if(!e.isIntersecting) continue; ioC.unobserve(e.target);
     const el=e.target, t=+el.dataset.count, t0=performance.now();
@@ -326,26 +597,44 @@ const ioC = new IntersectionObserver((es)=>{
 },{threshold:.5});
 document.querySelectorAll('[data-count]').forEach(el=>ioC.observe(el));
 
+/* ---- marquee ---- */
+const mq=document.getElementById('marquee'); mq.innerHTML+=mq.innerHTML;
+
+/* ---- nav, barra, fase ---- */
+const nav=document.getElementById('nav');
 const barra=document.getElementById('barra');
 const fase=document.getElementById('fase');
 const faseTxt=document.getElementById('faseTxt');
 const NOMBRES=['FASE 01 — LA GOTA','FASE 02 — LA HOJA','FASE 03 — EL VOLCÁN'];
 addEventListener('scroll',()=>{
+  nav.classList.toggle('is-scrolled', scrollY>40);
   const max=document.documentElement.scrollHeight-innerHeight;
   const p=Math.min(Math.max(scrollY/max,0),1);
   barra.style.width=(p*100)+'%';
-  const f=p<0.38?0:(p<0.72?1:2);
+  const f=p<0.34?0:(p<0.74?1:2);
   if(fase.dataset.f!=String(f)){fase.dataset.f=f; faseTxt.textContent=NOMBRES[f];}
 },{passive:true});
 
+/* ---- hitos ---- */
 const hitos=[...document.querySelectorAll('.hitos a')];
-const caps=[...document.querySelectorAll('.cap')];
 const ioH=new IntersectionObserver((es)=>{
   for(const e of es){ if(!e.isIntersecting) continue;
     const id=e.target.id||'top';
     hitos.forEach(h=>h.classList.toggle('act', h.getAttribute('href')==='#'+id));}
 },{rootMargin:'-45% 0px -50% 0px'});
-caps.forEach(c=>ioH.observe(c));
+document.querySelectorAll('section[id]').forEach(c=>ioH.observe(c));
+
+/* ---- botones magnéticos (fino) ---- */
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches && matchMedia('(pointer:fine)').matches){
+  document.querySelectorAll('[data-magnet]').forEach(b=>{
+    b.addEventListener('pointermove',(e)=>{
+      const r=b.getBoundingClientRect();
+      const x=(e.clientX-r.left-r.width/2)*0.18, y=(e.clientY-r.top-r.height/2)*0.3;
+      b.style.transform=`translate(${x}px,${y}px)`;
+    });
+    b.addEventListener('pointerleave',()=>{b.style.transform=''});
+  });
+}
 </script>
 
 <!-- ============ ESCULTURA DE PARTÍCULAS ============ -->
@@ -373,12 +662,10 @@ try{
   const camara = new THREE.PerspectiveCamera(50, innerWidth/innerHeight, 0.1, 100);
   camara.position.set(0, 0, 8);
 
-  /* ============================================================
-     Tres formas, mismas N partículas:
-     A · GOTA  — superficie de revolución (lágrima)
-     B · HOJA  — limbo curvado con nervio central
-     C · VOLCÁN — cono con cráter y chispas de lava
-     ============================================================ */
+  /* Tres formas, mismas N partículas:
+     A · GOTA — lágrima de revolución
+     B · HOJA — limbo curvado con nervio
+     C · VOLCÁN — cono con cráter y chispas */
   const N = movil ? 6500 : 14000;
   const posA = new Float32Array(N*3);
   const posB = new Float32Array(N*3);
@@ -387,56 +674,34 @@ try{
 
   for(let i=0;i<N;i++){
     seed[i] = Math.random();
-
-    /* ---- A · gota (lágrima de revolución, punta arriba) ---- */
-    {
-      const t = Math.acos(1-2*Math.random());          // distribución uniforme en esfera
+    { // A · gota
+      const t = Math.acos(1-2*Math.random());
       const th = Math.random()*Math.PI*2;
-      // perfil lágrima: r máximo abajo, punta fina arriba
       const r = Math.sin(t)*Math.pow(Math.sin(t/2),0.85)*1.35;
-      const jitter = 0.97+Math.random()*0.06;
-      posA[i*3]   = Math.cos(th)*r*jitter;
-      posA[i*3+1] = -Math.cos(t)*1.85;                  // invertir: punta arriba
-      posA[i*3+2] = Math.sin(th)*r*jitter;
+      const j = 0.97+Math.random()*0.06;
+      posA[i*3]=Math.cos(th)*r*j; posA[i*3+1]=-Math.cos(t)*1.85; posA[i*3+2]=Math.sin(th)*r*j;
     }
-
-    /* ---- B · hoja (limbo con curvatura y pliegue central) ---- */
-    {
-      const u = Math.random();                          // a lo largo del nervio
-      const v = (Math.random()*2-1);                    // a lo ancho
-      const w = Math.pow(Math.sin(Math.PI*u),0.65)*1.25*(1-0.22*u);
-      const x = (u-0.48)*4.4;
-      const z = v*w;
-      // pliegue en V + arqueo longitudinal + nervio marcado
-      let y = -Math.abs(v)*w*0.55 + Math.sin(u*Math.PI)*0.55 - 0.15;
-      if(Math.abs(v)<0.04) y += 0.05;                   // nervio central
-      // rotar la hoja ~35° para presentarla a cámara
-      const a = -0.6;
-      posB[i*3]   = x*Math.cos(0.5) - z*Math.sin(0.5);
-      posB[i*3+1] = y*Math.cos(a) - z*Math.sin(a)*0.4;
-      posB[i*3+2] = z*Math.cos(a)*0.9 + y*Math.sin(a) + x*Math.sin(0.5)*0.3;
+    { // B · hoja
+      const u=Math.random(), v=Math.random()*2-1;
+      const w=Math.pow(Math.sin(Math.PI*u),0.65)*1.25*(1-0.22*u);
+      const x=(u-0.48)*4.4, z=v*w;
+      let y=-Math.abs(v)*w*0.55+Math.sin(u*Math.PI)*0.55-0.15;
+      if(Math.abs(v)<0.04)y+=0.05;
+      const a=-0.6;
+      posB[i*3]  =x*Math.cos(0.5)-z*Math.sin(0.5);
+      posB[i*3+1]=y*Math.cos(a)-z*Math.sin(a)*0.4;
+      posB[i*3+2]=z*Math.cos(a)*0.9+y*Math.sin(a)+x*Math.sin(0.5)*0.3;
     }
-
-    /* ---- C · volcán (cono con cráter; las semillas altas son chispas) ---- */
-    {
-      const esChispa = seed[i] > 0.93;
-      if(esChispa){
-        // chispas suspendidas sobre el cráter
-        const th = Math.random()*Math.PI*2;
-        const rr = Math.random()*0.55;
-        posC[i*3]   = Math.cos(th)*rr;
-        posC[i*3+1] = 1.15 + Math.random()*1.5;
-        posC[i*3+2] = Math.sin(th)*rr;
+    { // C · volcán
+      if(seed[i]>0.93){
+        const th=Math.random()*Math.PI*2, rr=Math.random()*0.55;
+        posC[i*3]=Math.cos(th)*rr; posC[i*3+1]=1.15+Math.random()*1.5; posC[i*3+2]=Math.sin(th)*rr;
       }else{
-        const h = Math.pow(Math.random(),1.35);         // densidad hacia la base
-        const y = h*2.05;
-        const rim = 0.62;                                // radio del cráter
-        const R = 2.5*(1-y/2.45);
-        const r = Math.max(R, rim*(y>1.7?1:0)) * (0.97+Math.random()*0.06);
-        const th = Math.random()*Math.PI*2;
-        posC[i*3]   = Math.cos(th)*r;
-        posC[i*3+1] = y-1.05;
-        posC[i*3+2] = Math.sin(th)*r;
+        const h=Math.pow(Math.random(),1.35), y=h*2.05;
+        const R=2.5*(1-y/2.45);
+        const r=Math.max(R,0.62*(y>1.7?1:0))*(0.97+Math.random()*0.06);
+        const th=Math.random()*Math.PI*2;
+        posC[i*3]=Math.cos(th)*r; posC[i*3+1]=y-1.05; posC[i*3+2]=Math.sin(th)*r;
       }
     }
   }
@@ -452,10 +717,10 @@ try{
     uniforms:{
       uMorph:{value:0}, uTime:{value:0},
       uSize:{value:(movil?200:260)*dpr},
-      uColA:{value:new THREE.Color(0x7FC4D8)},   // gota: alisio
-      uColB:{value:new THREE.Color(0xC8E64B)},   // hoja: brote
-      uColC:{value:new THREE.Color(0x4E8A3F)},   // volcán: clorofila oscura
-      uLava:{value:new THREE.Color(0xD9542B)}    // chispas
+      uColA:{value:new THREE.Color(0x7FC4D8)},
+      uColB:{value:new THREE.Color(0xC8E64B)},
+      uColC:{value:new THREE.Color(0x4E8A3F)},
+      uLava:{value:new THREE.Color(0xD9542B)}
     },
     vertexShader:`
       attribute vec3 posB; attribute vec3 posC; attribute float seed;
@@ -464,7 +729,6 @@ try{
       void main(){
         float m1 = smoothstep(0.0,1.0,clamp(uMorph,0.0,1.0));
         float m2 = smoothstep(0.0,1.0,clamp(uMorph-1.0,0.0,1.0));
-        // cada partícula viaja con un pequeño desfase según su semilla
         float d1 = smoothstep(0.0,1.0,clamp((uMorph-seed*0.25)/0.75,0.0,1.0));
         float d2 = smoothstep(0.0,1.0,clamp((uMorph-1.0-seed*0.25)/0.75,0.0,1.0));
         vec3 p = mix(position, posB, d1);
@@ -487,7 +751,7 @@ try{
         float a = smoothstep(0.5,0.06,d);
         vec3 col = mix(uColA, uColB, vM1);
         col = mix(col, uColC, vM2);
-        if(vSeed>0.93) col = mix(col, uLava, vM2);      // chispas de cráter
+        if(vSeed>0.93) col = mix(col, uLava, vM2);
         gl_FragColor = vec4(col, a*(0.3+0.7*vSeed));
       }`
   });
@@ -495,25 +759,22 @@ try{
   const escultura = new THREE.Points(geo, mat);
   escena.add(escultura);
 
-  /* ---- keyframes de puesta en escena por scroll ----
-     p:      0     .25    .5     .75    1
-     morph:  0     .25    1.0    1.55   2.0
-     x:      2.3  -2.1    2.1   -2.1    0     (esquiva los paneles)
-     y:     -0.2   0     -0.1    0      0.25
-     esc:    1.15  0.95   1.05   0.9    1.3                         */
+  /* keyframes de puesta en escena (p de scroll 0→1)
+     hero: gota dcha · circuito: gota izda · para-quien: hoja arriba-centro
+     etiqueta(banda papel): oculta tras banda · casos: hoja→volcán dcha · fin: volcán centro */
   const KF = {
-    p:    [0,    0.25, 0.5,  0.75, 1],
-    morph:[0,    0.25, 1.0,  1.55, 2.0],
-    x:    [2.3, -2.1,  2.1, -2.1,  0],
-    y:    [-0.2, 0,   -0.1,  0,    0.25],
-    s:    [1.15, 0.95, 1.05, 0.9,  1.3]
+    p:    [0,    0.16, 0.36, 0.55, 0.78, 1],
+    morph:[0,    0.18, 1.0,  1.0,  1.55, 2.0],
+    x:    [2.3, -2.2,  0,    0,    2.2,  0],
+    y:    [-0.2, 0,    1.25, 1.6,  -0.1, 0.25],
+    s:    [1.15, 0.95, 0.8,  0.8,  0.95, 1.3]
   };
   const interp=(arr,p)=>{
     const ps=KF.p;
     for(let i=0;i<ps.length-1;i++){
       if(p<=ps[i+1]){
         const t=(p-ps[i])/(ps[i+1]-ps[i]);
-        const k=t*t*(3-2*t);                    // suavizado
+        const k=t*t*(3-2*t);
         return arr[i]+(arr[i+1]-arr[i])*k;
       }
     }
@@ -554,7 +815,7 @@ try{
 
     camara.position.x = smx*0.7;
     camara.position.y = smy*-0.5;
-    camara.lookAt(escultura.position.x*0.6, 0, 0);
+    camara.lookAt(escultura.position.x*0.6, escultura.position.y*0.3, 0);
 
     renderer.render(escena, camara);
   });
