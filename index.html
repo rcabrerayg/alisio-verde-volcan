@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alisio Hydro × Verde Volcán — Hidroponía NFT en Canarias</title>
+<meta name="description" content="Ingeniería hidropónica NFT y producción local en las Islas Canarias. 90% menos agua, cosecha los 365 días.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Hanken+Grotesk:wght@300;400;500;600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TERROIR TÉCNICO · Alisio Hydro × Verde Volcán · v1.0
+   ============================================================ */
+:root{
+  --basalto:#161A14; --basalto-2:#20251D;
+  --papel:#F2EFE6; --papel-2:#E9E4D6;
+  --ceniza:#8A8B7F; --humo:#41463C;
+  --alisio-900:#0F3543; --alisio-500:#2E7D96; --alisio-300:#7FC4D8; --alisio-100:#DCEEF2;
+  --volcan-900:#1F4422; --volcan-500:#4E8A3F; --brote:#C8E64B; --volcan-100:#E6EFD8;
+  --lava:#D9542B;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'Hanken Grotesk',-apple-system,sans-serif;
+  --font-mono:'Fragment Mono','SF Mono',monospace;
+  --ease-alisio:cubic-bezier(0.22,1,0.36,1);
+  --dur-micro:220ms; --dur-base:600ms; --dur-entrada:900ms;
+  --margin-page:clamp(1.5rem,5vw,6rem);
+  --space-section:clamp(6rem,12vh,10.5rem);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--basalto); color:var(--papel);
+  font-family:var(--font-body); font-size:1.0625rem; line-height:1.6;
+  font-weight:300; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+::selection{background:var(--brote); color:var(--basalto)}
+img{display:block; max-width:100%}
+
+/* ---- Grano de basalto (textura global) ---- */
+body::after{
+  content:""; position:fixed; inset:0; z-index:999; pointer-events:none;
+  opacity:.05; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- Tipografía utilitaria ---- */
+.eyebrow{
+  font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase;
+  letter-spacing:.12em; color:var(--brote); display:flex; align-items:center; gap:.75rem;
+}
+.eyebrow::before{content:""; width:2rem; height:1px; background:currentColor; opacity:.6}
+.eyebrow--alisio{color:var(--alisio-300)}
+h1,h2,h3{font-family:var(--font-display); font-weight:480; line-height:1.05;
+  letter-spacing:-0.015em; text-wrap:balance}
+.italica{font-style:italic; font-variation-settings:'SOFT' 60,'WONK' 1; font-weight:430}
+.dato{font-family:var(--font-mono); font-variant-numeric:tabular-nums}
+
+/* ---- Reveal escalonado (solo si hay JS) ---- */
+html.js .reveal{opacity:0; transform:translateY(26px);
+  transition:opacity var(--dur-entrada) var(--ease-alisio), transform var(--dur-entrada) var(--ease-alisio);
+  transition-delay:calc(var(--stagger,0)*90ms)}
+html.js .reveal.is-visible{opacity:1; transform:none}
+
+/* ---- Nav ---- */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1.25rem var(--margin-page);
+  transition:background var(--dur-base) var(--ease-alisio), padding var(--dur-base) var(--ease-alisio);
+}
+.nav.is-scrolled{background:color-mix(in srgb, var(--basalto) 88%, transparent);
+  backdrop-filter:blur(12px); padding:.8rem var(--margin-page);
+  border-bottom:1px solid color-mix(in srgb, var(--ceniza) 18%, transparent)}
+.nav__brand{font-family:var(--font-mono); font-size:.8rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--papel); text-decoration:none}
+.nav__brand em{font-style:normal; color:var(--brote)}
+.nav__links{display:flex; gap:2.5rem; align-items:center}
+.nav__links a{color:var(--ceniza); text-decoration:none; font-size:.875rem;
+  font-weight:400; position:relative; transition:color var(--dur-micro)}
+.nav__links a:hover{color:var(--papel)}
+.nav__links a::after{content:""; position:absolute; left:0; bottom:-4px; height:1px;
+  width:100%; background:var(--brote); transform:scaleX(0); transform-origin:left;
+  transition:transform var(--dur-base) var(--ease-alisio)}
+.nav__links a:hover::after{transform:scaleX(1)}
+@media(max-width:760px){.nav__links a:not(.btn){display:none}}
+
+/* ---- Botones ---- */
+.btn{
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase;
+  letter-spacing:.12em; text-decoration:none; padding:.85rem 1.75rem;
+  border-radius:2px; transition:all var(--dur-micro) var(--ease-alisio); cursor:pointer; border:0;
+}
+.btn .fl{transition:transform var(--dur-micro) var(--ease-alisio)}
+.btn:hover .fl{transform:translateX(4px)}
+.btn--brote{background:var(--brote); color:var(--basalto) !important}
+.btn--brote:hover{background:#d6f06a}
+.btn--ghost{border:1px solid color-mix(in srgb, var(--papel) 35%, transparent);
+  color:var(--papel) !important; position:relative; overflow:hidden; isolation:isolate}
+.btn--ghost::before{content:""; position:absolute; inset:0; z-index:-1;
+  background:var(--papel); transform:scaleX(0); transform-origin:left;
+  transition:transform .4s var(--ease-alisio)}
+.btn--ghost:hover{color:var(--basalto) !important; border-color:var(--papel)}
+.btn--ghost:hover::before{transform:scaleX(1)}
+
+/* ---- Hero ---- */
+.hero{min-height:100svh; display:flex; flex-direction:column; justify-content:flex-end;
+  position:relative; padding:0 var(--margin-page) 4rem; overflow:hidden}
+.hero__flow{position:absolute; inset:0; z-index:0; opacity:.5}
+.hero__flow path{fill:none; stroke-width:1.2}
+.flow-a{stroke:var(--alisio-500); stroke-dasharray:6 14; animation:flujo 9s linear infinite}
+.flow-b{stroke:var(--volcan-500); stroke-dasharray:4 16; animation:flujo 13s linear infinite reverse}
+.flow-c{stroke:color-mix(in srgb, var(--ceniza) 40%, transparent); stroke-dasharray:2 18;
+  animation:flujo 17s linear infinite}
+@keyframes flujo{to{stroke-dashoffset:-400}}
+.hero__inner{position:relative; z-index:1; max-width:1280px; width:100%; margin:0 auto}
+.hero__eyebrow{margin-bottom:2rem}
+.hero h1{font-size:clamp(3rem,8.5vw,7.2rem); line-height:.98; max-width:11ch}
+.hero h1 .l-alisio{color:var(--alisio-300)}
+.hero h1 .l-brote{color:var(--brote)}
+.hero__sub{max-width:42ch; margin-top:2rem; color:var(--ceniza); font-size:1.15rem}
+.hero__cta{display:flex; gap:1rem; margin-top:2.8rem; flex-wrap:wrap}
+.hero__data{display:flex; gap:3rem; flex-wrap:wrap; margin-top:4.5rem;
+  padding-top:1.5rem; border-top:1px solid color-mix(in srgb, var(--ceniza) 25%, transparent)}
+.hero__data .item{font-family:var(--font-mono); font-size:.75rem;
+  text-transform:uppercase; letter-spacing:.1em; color:var(--ceniza)}
+.hero__data .item b{display:block; font-size:1rem; color:var(--papel); font-weight:400; margin-top:.3rem}
+.hero__data .item b.verde{color:var(--brote)}
+.hero__data .item b.azul{color:var(--alisio-300)}
+
+/* ---- Marquee ---- */
+.marquee{border-top:1px solid color-mix(in srgb, var(--ceniza) 22%, transparent);
+  border-bottom:1px solid color-mix(in srgb, var(--ceniza) 22%, transparent);
+  overflow:hidden; padding:1.1rem 0; background:var(--basalto-2)}
+.marquee__track{display:flex; gap:3.5rem; width:max-content; animation:marquee 42s linear infinite}
+.marquee:hover .marquee__track{animation-play-state:paused}
+.marquee__track span{font-family:var(--font-mono); font-size:.8rem; white-space:nowrap;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--ceniza)}
+.marquee__track span i{font-style:normal; color:var(--brote); margin-right:3.5rem}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ---- Secciones ---- */
+.section{padding:var(--space-section) var(--margin-page)}
+.section__inner{max-width:1280px; margin:0 auto}
+.section__head{display:grid; grid-template-columns:1fr; gap:1.5rem; margin-bottom:4rem; max-width:760px}
+.section__head h2{font-size:clamp(2rem,4.5vw,3.4rem)}
+
+/* ---- Dos marcas: split ---- */
+.split{display:flex; gap:1rem; min-height:560px}
+@media(max-width:860px){.split{flex-direction:column}}
+.split__panel{flex:1; border-radius:2px; padding:3rem 2.5rem; display:flex;
+  flex-direction:column; justify-content:space-between; position:relative; overflow:hidden;
+  transition:flex .7s var(--ease-alisio); cursor:pointer; text-decoration:none; min-height:480px}
+.split__panel:hover{flex:1.45}
+.split__panel--alisio{background:linear-gradient(160deg,var(--alisio-900),#0a2530 80%)}
+.split__panel--volcan{background:linear-gradient(160deg,var(--volcan-900),#13290f 80%)}
+.split__panel::after{content:""; position:absolute; inset:0; opacity:.12; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.split__top{position:relative; z-index:1}
+.split__panel .eyebrow{margin-bottom:1.6rem}
+.split__panel h3{font-size:clamp(1.8rem,3vw,2.6rem); color:var(--papel); margin-bottom:1.2rem}
+.split__panel p{color:color-mix(in srgb, var(--papel) 65%, transparent); max-width:38ch}
+.split__list{list-style:none; margin-top:2rem; position:relative; z-index:1}
+.split__list li{font-family:var(--font-mono); font-size:.8rem; letter-spacing:.06em;
+  padding:.7rem 0; border-top:1px solid color-mix(in srgb, var(--papel) 14%, transparent);
+  color:color-mix(in srgb, var(--papel) 80%, transparent); display:flex; gap:.8rem}
+.split__list li::before{content:"→"; flex-shrink:0}
+.split__panel--alisio .split__list li::before{color:var(--alisio-300)}
+.split__panel--volcan .split__list li::before{color:var(--brote)}
+
+/* ---- Sistema NFT ---- */
+.sistema{background:var(--papel); color:var(--basalto)}
+.sistema .eyebrow{color:var(--volcan-500)}
+.sistema__diagrama{margin:3rem 0 4rem; border:1px solid color-mix(in srgb, var(--humo) 25%, transparent);
+  border-radius:2px; background:var(--papel-2); padding:1rem}
+.sistema__diagrama svg{width:100%; height:auto; display:block}
+.tuberia{fill:none; stroke:var(--alisio-500); stroke-width:2; stroke-dasharray:5 9;
+  animation:flujo 7s linear infinite}
+.sistema__pasos{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:2.5rem}
+.paso{border-top:1px solid var(--humo); padding-top:1.2rem}
+.paso__num{font-family:var(--font-mono); font-size:.75rem; color:var(--volcan-500);
+  letter-spacing:.12em; display:block; margin-bottom:.8rem}
+.paso h4{font-family:var(--font-display); font-weight:520; font-size:1.25rem; margin-bottom:.5rem}
+.paso p{font-size:.95rem; color:var(--humo)}
+
+/* ---- Stats ---- */
+.stats{background:var(--papel); color:var(--basalto); padding-top:0}
+.stats__grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  border-top:1px solid var(--humo)}
+.stat{padding:2.5rem 2rem 2.5rem 0; border-right:1px solid color-mix(in srgb, var(--humo) 25%, transparent)}
+.stat:last-child{border-right:0}
+@media(max-width:760px){.stat{border-right:0; border-bottom:1px solid color-mix(in srgb, var(--humo) 25%, transparent)}}
+.stat__num{font-family:var(--font-display); font-size:clamp(2.4rem,4vw,3.4rem);
+  font-weight:480; line-height:1; color:var(--volcan-900)}
+.stat__num .unidad{font-family:var(--font-mono); font-size:1rem; color:var(--lava); margin-left:.2rem}
+.stat__label{font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase;
+  letter-spacing:.12em; color:var(--humo); margin-top:1rem; display:block; max-width:22ch}
+
+/* ---- Casos reales ---- */
+.casos__grid{display:grid; grid-template-columns:1fr 1fr; gap:2rem}
+@media(max-width:860px){.casos__grid{grid-template-columns:1fr}}
+.caso{border:1px solid color-mix(in srgb, var(--ceniza) 30%, transparent); border-radius:2px;
+  overflow:hidden; background:var(--basalto-2); text-decoration:none; color:inherit;
+  transition:border-color var(--dur-base) var(--ease-alisio)}
+.caso:hover{border-color:var(--brote)}
+.caso__media{aspect-ratio:16/10; overflow:hidden}
+.caso__media img{width:100%; height:100%; object-fit:cover;
+  filter:contrast(1.04) saturate(1.05);
+  transition:transform 1.2s var(--ease-alisio)}
+.caso:hover .caso__media img{transform:scale(1.04)}
+.caso__body{padding:1.8rem 2rem 2rem; display:flex; flex-direction:column; gap:.6rem}
+.caso__meta{font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase;
+  letter-spacing:.12em; color:var(--ceniza); display:flex; justify-content:space-between; gap:1rem}
+.caso__meta em{font-style:normal; color:var(--brote)}
+.caso h3{font-size:1.7rem; color:var(--papel)}
+.caso p{color:var(--ceniza); font-size:.95rem; max-width:48ch}
+
+/* ---- Tira fotográfica ---- */
+.tira{display:grid; grid-template-columns:1.2fr .8fr 1fr; gap:1rem; padding:0 var(--margin-page)}
+@media(max-width:760px){.tira{grid-template-columns:1fr}}
+.tira figure{overflow:hidden; border-radius:2px; position:relative}
+.tira img{width:100%; height:320px; object-fit:cover; filter:contrast(1.04) saturate(1.05);
+  will-change:transform}
+.tira figcaption{position:absolute; left:1rem; bottom:.9rem; font-family:var(--font-mono);
+  font-size:.68rem; text-transform:uppercase; letter-spacing:.12em; color:var(--papel);
+  background:color-mix(in srgb, var(--basalto) 75%, transparent); padding:.35rem .6rem; border-radius:2px}
+
+/* ---- CTA final ---- */
+.cta-final{text-align:left}
+.cta-final__inner{max-width:1280px; margin:0 auto; border:1px solid color-mix(in srgb, var(--ceniza) 30%, transparent);
+  border-radius:2px; padding:clamp(2.5rem,6vw,5.5rem); position:relative; overflow:hidden; background:var(--basalto-2)}
+.cta-final h2{font-size:clamp(2.2rem,5vw,4rem); max-width:18ch}
+.cta-final p{color:var(--ceniza); margin-top:1.4rem; max-width:46ch}
+.cta-final .hero__cta{margin-top:2.5rem}
+.cta-final__contacto{margin-top:3rem; font-family:var(--font-mono); font-size:.78rem;
+  letter-spacing:.08em; color:var(--ceniza); line-height:2}
+.cta-final__contacto b{color:var(--papel); font-weight:400}
+
+/* ---- Footer ---- */
+.footer{padding:3rem var(--margin-page); border-top:1px solid color-mix(in srgb, var(--ceniza) 20%, transparent);
+  display:flex; justify-content:space-between; gap:2rem; flex-wrap:wrap;
+  font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ceniza)}
+.footer em{font-style:normal; color:var(--brote)}
+.footer .azul{color:var(--alisio-300)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important; transition-duration:150ms !important}
+  html.js .reveal{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a class="nav__brand" href="#top">ALISIO HYDRO <em>×</em> VERDE VOLCÁN</a>
+  <div class="nav__links">
+    <a href="#marcas">Marcas</a>
+    <a href="#sistema">El sistema</a>
+    <a href="#casos">Proyectos</a>
+    <a href="#contacto" class="btn btn--brote">Pide tu estudio <span class="fl">→</span></a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <svg class="hero__flow" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path class="flow-a" d="M-50,180 C300,140 520,260 820,210 S1300,120 1500,170"/>
+    <path class="flow-b" d="M-50,420 C260,380 560,500 900,440 S1320,360 1500,410"/>
+    <path class="flow-c" d="M-50,640 C320,600 540,720 880,660 S1340,580 1500,630"/>
+    <path class="flow-c" d="M-50,80 C350,40 600,140 920,100 S1340,30 1500,70"/>
+  </svg>
+  <div class="hero__inner">
+    <p class="eyebrow hero__eyebrow reveal" style="--stagger:0">Hidroponía NFT · Islas Canarias</p>
+    <h1>
+      <span class="reveal" style="--stagger:1; display:block">Del <span class="italica l-alisio">alisio</span></span>
+      <span class="reveal" style="--stagger:2; display:block">brota la <span class="italica l-brote">cosecha</span>.</span>
+    </h1>
+    <p class="hero__sub reveal" style="--stagger:3">
+      Diseñamos, instalamos y operamos sistemas hidropónicos NFT adaptados a cada
+      microclima del archipiélago. Verdura local, agua mínima, cosecha continua.
+    </p>
+    <div class="hero__cta reveal" style="--stagger:4">
+      <a class="btn btn--brote" href="#contacto">Pide el estudio de tu finca <span class="fl">→</span></a>
+      <a class="btn btn--ghost" href="#marcas">Conoce las dos marcas</a>
+    </div>
+    <div class="hero__data reveal" style="--stagger:5">
+      <div class="item">Consumo de agua<b class="verde">−90 % vs. suelo</b></div>
+      <div class="item">Producción<b>365 días / año</b></div>
+      <div class="item">Instalado<b class="azul">500 m² + en obra</b></div>
+      <div class="item">Islas activas<b>Gran Canaria · Tenerife</b></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track" id="marquee">
+    <span>Lechuga batavia <i>·</i></span><span>Fresa de altura <i>·</i></span>
+    <span>Tomate cherry <i>·</i></span><span>Albahaca <i>·</i></span>
+    <span>Pak choi <i>·</i></span><span>KM 0 real <i>·</i></span>
+    <span>−90 % agua <i>·</i></span><span>Sin herbicidas <i>·</i></span>
+  </div>
+</div>
+
+<!-- ============ DOS MARCAS ============ -->
+<section class="section" id="marcas">
+  <div class="section__inner">
+    <div class="section__head">
+      <p class="eyebrow reveal" style="--stagger:0">Arquitectura del proyecto</p>
+      <h2 class="reveal" style="--stagger:1">Dos marcas, <span class="italica">un ecosistema</span>.</h2>
+    </div>
+    <div class="split">
+      <a class="split__panel split__panel--alisio reveal" style="--stagger:1" href="#contacto">
+        <div class="split__top">
+          <p class="eyebrow eyebrow--alisio">Ingeniería · Instalación</p>
+          <h3>Alisio Hydro</h3>
+          <p>Estudio, diseño e instalación llave en mano de sistemas NFT.
+          Para propietarios de suelo, inversores y explotaciones que quieren producir más con menos agua.</p>
+        </div>
+        <ul class="split__list">
+          <li>Estudio de viabilidad por microclima</li>
+          <li>Instalación NFT llave en mano</li>
+          <li>Mantenimiento y telemetría</li>
+          <li>Tramitación de subvenciones</li>
+        </ul>
+      </a>
+      <a class="split__panel split__panel--volcan reveal" style="--stagger:2" href="#contacto">
+        <div class="split__top">
+          <p class="eyebrow">Producción · Venta</p>
+          <h3>Verde Volcán</h3>
+          <p>Verdura hidropónica cultivada en Canarias para Canarias.
+          Suministro estable a HORECA y retail, sin barco de por medio.</p>
+        </div>
+        <ul class="split__list">
+          <li>Suministro semanal a restaurantes</li>
+          <li>Lechuga, tomate, fresa y aromáticas</li>
+          <li>Cosechado &lt; 24 h antes de entrega</li>
+          <li>Trazabilidad por lote</li>
+        </ul>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EL SISTEMA ============ -->
+<section class="section sistema" id="sistema">
+  <div class="section__inner">
+    <div class="section__head">
+      <p class="eyebrow reveal" style="--stagger:0">Nutrient Film Technique</p>
+      <h2 class="reveal" style="--stagger:1">El agua circula. <span class="italica">Nada se pierde.</span></h2>
+    </div>
+    <div class="sistema__diagrama reveal" style="--stagger:2">
+      <svg viewBox="0 0 1100 300" role="img" aria-label="Diagrama del circuito NFT: depósito, bomba, canales de cultivo y retorno">
+        <!-- depósito -->
+        <rect x="40" y="190" width="120" height="70" rx="2" fill="none" stroke="#41463C" stroke-width="2"/>
+        <text x="100" y="285" text-anchor="middle" font-family="Fragment Mono" font-size="12" fill="#41463C">DEPÓSITO</text>
+        <path d="M52,215 q12,-8 24,0 t24,0 t24,0 t24,0" fill="none" stroke="#2E7D96" stroke-width="2"/>
+        <!-- bomba -->
+        <circle cx="230" cy="225" r="22" fill="none" stroke="#41463C" stroke-width="2"/>
+        <text x="230" y="285" text-anchor="middle" font-family="Fragment Mono" font-size="12" fill="#41463C">BOMBA</text>
+        <!-- subida -->
+        <path class="tuberia" d="M160,225 H208 M252,225 H300 V90 H360"/>
+        <!-- canales -->
+        <g>
+          <rect x="360" y="80" width="560" height="18" rx="2" fill="none" stroke="#1F4422" stroke-width="2"/>
+          <rect x="360" y="140" width="560" height="18" rx="2" fill="none" stroke="#1F4422" stroke-width="2"/>
+          <path class="tuberia" d="M364,89 H916 M364,149 H916"/>
+          <!-- plantas -->
+          <g fill="#4E8A3F">
+            <circle cx="420" cy="72" r="7"/><circle cx="520" cy="72" r="7"/><circle cx="620" cy="72" r="7"/>
+            <circle cx="720" cy="72" r="7"/><circle cx="820" cy="72" r="7"/>
+            <circle cx="470" cy="132" r="7"/><circle cx="570" cy="132" r="7"/><circle cx="670" cy="132" r="7"/>
+            <circle cx="770" cy="132" r="7"/><circle cx="870" cy="132" r="7"/>
+          </g>
+          <text x="640" y="50" text-anchor="middle" font-family="Fragment Mono" font-size="12" fill="#41463C">CANALES NFT · LÁMINA DE 2–3 MM</text>
+        </g>
+        <!-- retorno -->
+        <path class="tuberia" d="M920,98 H980 V230 H160"/>
+        <text x="985" y="170" font-family="Fragment Mono" font-size="12" fill="#2E7D96">RETORNO</text>
+      </svg>
+    </div>
+    <div class="sistema__pasos">
+      <div class="paso reveal" style="--stagger:0">
+        <span class="paso__num">01 / SOLUCIÓN</span>
+        <h4>Agua + nutrientes</h4>
+        <p>El depósito mezcla agua y nutrientes minerales calibrados por cultivo y por estación.</p>
+      </div>
+      <div class="paso reveal" style="--stagger:1">
+        <span class="paso__num">02 / LÁMINA</span>
+        <h4>Película de 2–3 mm</h4>
+        <p>Una lámina fina recorre los canales: la raíz toma lo que necesita sin encharcarse.</p>
+      </div>
+      <div class="paso reveal" style="--stagger:2">
+        <span class="paso__num">03 / RETORNO</span>
+        <h4>Circuito cerrado</h4>
+        <p>El sobrante vuelve al depósito. Por eso el ahorro de agua llega al 90 %.</p>
+      </div>
+      <div class="paso reveal" style="--stagger:3">
+        <span class="paso__num">04 / COSECHA</span>
+        <h4>Ciclos de 30 días</h4>
+        <p>Sin suelo no hay malas hierbas ni rotación forzosa: se cosecha todo el año.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="section stats">
+  <div class="section__inner">
+    <div class="stats__grid">
+      <div class="stat reveal" style="--stagger:0">
+        <div class="stat__num"><span class="dato" data-count="90">0</span><span class="unidad">%</span></div>
+        <span class="stat__label">Menos agua que el cultivo tradicional en suelo</span>
+      </div>
+      <div class="stat reveal" style="--stagger:1">
+        <div class="stat__num"><span class="dato" data-count="500">0</span><span class="unidad">m²</span></div>
+        <span class="stat__label">Instalados y en producción en proyectos reales</span>
+      </div>
+      <div class="stat reveal" style="--stagger:2">
+        <div class="stat__num"><span class="dato" data-count="12">0</span><span class="unidad">cosechas</span></div>
+        <span class="stat__label">Ciclos de hoja verde al año, sin parar en invierno</span>
+      </div>
+      <div class="stat reveal" style="--stagger:3">
+        <div class="stat__num"><span class="dato" data-count="24">0</span><span class="unidad">h</span></div>
+        <span class="stat__label">Del canal de cultivo a la cocina del restaurante</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASOS REALES ============ -->
+<section class="section" id="casos">
+  <div class="section__inner">
+    <div class="section__head">
+      <p class="eyebrow reveal" style="--stagger:0">Proyectos reales · Sin renders</p>
+      <h2 class="reveal" style="--stagger:1">Esto ya está <span class="italica">creciendo</span>.</h2>
+    </div>
+    <div class="casos__grid">
+      <a class="caso reveal" style="--stagger:1" href="#contacto">
+        <div class="caso__media"><img src="assets/firgas-aereo.jpg" alt="Vista aérea de la instalación NFT de fresas en Firgas, Gran Canaria"></div>
+        <div class="caso__body">
+          <div class="caso__meta"><span>FIRGAS · GRAN CANARIA</span><em>FRESA</em></div>
+          <h3>Fresa de medianías</h3>
+          <p>Instalación NFT en exterior aprovechando la altitud y humedad del norte de
+          Gran Canaria. Fresa de calidad de montaña con consumo de agua mínimo.</p>
+        </div>
+      </a>
+      <a class="caso reveal" style="--stagger:2" href="#contacto">
+        <div class="caso__media"><img src="assets/guinea-lechugas.jpg" alt="Lechugas batavia en canales NFT bajo invernadero en el proyecto Guinea"></div>
+        <div class="caso__body">
+          <div class="caso__meta"><span>GUINEA · 500 M² BAJO INVERNADERO</span><em>TOMATE · LECHUGA</em></div>
+          <h3>Hoja verde y tomate a escala</h3>
+          <p>500 m² de NFT bajo invernadero produciendo lechuga y tomate en continuo.
+          La prueba de que el modelo escala y es rentable en Canarias.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIRA FOTOGRÁFICA ============ -->
+<div class="tira" aria-hidden="true">
+  <figure class="reveal" style="--stagger:0"><img data-parallax src="assets/guinea-02.jpg" alt=""><figcaption>GUINEA · SALA DE ENERGÍA · AUTOCONSUMO</figcaption></figure>
+  <figure class="reveal" style="--stagger:1"><img data-parallax src="assets/guinea-03.jpg" alt=""><figcaption>GUINEA · CULTIVO EN LÁMINA</figcaption></figure>
+  <figure class="reveal" style="--stagger:2"><img data-parallax src="assets/guinea-04.jpg" alt=""><figcaption>GUINEA · COSECHA CONTINUA</figcaption></figure>
+</div>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="section cta-final" id="contacto">
+  <div class="cta-final__inner reveal">
+    <p class="eyebrow" style="margin-bottom:1.6rem">Siguiente cosecha: la tuya</p>
+    <h2>¿Tienes suelo, agua o un <span class="italica">restaurante</span>?</h2>
+    <p>Te preparamos un estudio de viabilidad de tu finca o un plan de suministro
+    para tu cocina. Sin compromiso y con números reales de proyectos en marcha.</p>
+    <div class="hero__cta">
+      <a class="btn btn--brote" href="mailto:hola@alisiohydro.com?subject=Estudio%20de%20viabilidad">Pide el estudio de tu finca <span class="fl">→</span></a>
+      <a class="btn btn--ghost" href="mailto:hola@verdevolcan.com?subject=Suministro%20HORECA">Suministro para HORECA</a>
+    </div>
+    <div class="cta-final__contacto">
+      CONTACTO TÉCNICO — <b>Néstor Rodríguez</b> · Ingeniería e instalaciones<br>
+      hola@alisiohydro.com · hola@verdevolcan.com · Islas Canarias
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <span><em>ALISIO HYDRO</em> — Ingeniería hidropónica</span>
+  <span class="azul">VERDE VOLCÁN — Cultivo local</span>
+  <span>© 2026 · Hecho en Canarias</span>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+
+/* ---- Reveal escalonado ---- */
+const io = new IntersectionObserver((entries)=>{
+  for(const e of entries){
+    if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }
+  }
+},{threshold:.15, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---- Nav al hacer scroll ---- */
+const nav = document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('is-scrolled', scrollY>40),{passive:true});
+
+/* ---- Marquee: duplicar pista para bucle perfecto ---- */
+const mq = document.getElementById('marquee');
+mq.innerHTML += mq.innerHTML;
+
+/* ---- Contadores ---- */
+const ioCount = new IntersectionObserver((entries)=>{
+  for(const e of entries){
+    if(!e.isIntersecting) continue;
+    ioCount.unobserve(e.target);
+    const el = e.target, target = +el.dataset.count, t0 = performance.now();
+    const tick = (t)=>{
+      const p = Math.min((t-t0)/900, 1), eased = 1-Math.pow(1-p,3);
+      el.textContent = Math.round(target*eased);
+      if(p<1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+},{threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el=>ioCount.observe(el));
+
+/* ---- Parallax sutil en tira fotográfica ---- */
+const pimgs = [...document.querySelectorAll('[data-parallax]')];
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches && pimgs.length){
+  addEventListener('scroll',()=>{
+    for(const img of pimgs){
+      const r = img.getBoundingClientRect();
+      if(r.bottom<0 || r.top>innerHeight) continue;
+      const v = (r.top + r.height/2 - innerHeight/2) * 0.05;
+      img.style.transform = `translateY(${v}px) scale(1.08)`;
+    }
+  },{passive:true});
+}
+</script>
+</body>
+</html>
