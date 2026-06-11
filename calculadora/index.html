@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de viabilidad — Hidroponía NFT en Canarias</title>
+<meta name="description" content="Estima la inversión, subvención potencial y producción de un cultivo hidropónico NFT en tu finca. Cifras de proyectos reales en Canarias.">
+<meta name="theme-color" content="#161A14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23161A14'/%3E%3Cpath d='M8 24 L15 11 L17.5 15 L20 11 L25 24 Z' fill='none' stroke='%23C8E64B' stroke-width='2' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='7' r='2.2' fill='%237FC4D8'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Hanken+Grotesk:wght@300;400;500;600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CALCULADORA DE VIABILIDAD · Terroir Técnico
+   Cifras: MODELO_ECONOMICO_REALISTA.md (jun 2026) — conservadoras
+   ============================================================ */
+:root{
+  --basalto:#161A14; --basalto-2:#20251D;
+  --papel:#F2EFE6; --papel-2:#E9E4D6;
+  --ceniza:#8A8B7F; --humo:#41463C;
+  --alisio-300:#7FC4D8; --alisio-500:#2E7D96;
+  --volcan-900:#1F4422; --volcan-500:#4E8A3F; --brote:#C8E64B;
+  --lava:#D9542B;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'Hanken Grotesk',-apple-system,sans-serif;
+  --font-mono:'Fragment Mono','SF Mono',monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+  --margin:clamp(1.25rem,5vw,6rem);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--basalto); color:var(--papel); font-family:var(--font-body);
+  font-size:1.0625rem; line-height:1.6; font-weight:300; -webkit-font-smoothing:antialiased}
+::selection{background:var(--brote); color:var(--basalto)}
+body::after{content:""; position:fixed; inset:0; z-index:999; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.eyebrow{font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase;
+  letter-spacing:.14em; color:var(--brote); display:flex; align-items:center; gap:.75rem}
+.eyebrow::before{content:""; width:2rem; height:1px; background:currentColor; opacity:.6}
+h1,h2,h3{font-family:var(--font-display); font-weight:470; line-height:1.05; letter-spacing:-0.015em}
+.italica{font-style:italic; font-variation-settings:'SOFT' 60,'WONK' 1; font-weight:420}
+.dato{font-family:var(--font-mono); font-variant-numeric:tabular-nums}
+
+.nav{display:flex; justify-content:space-between; align-items:center; padding:1.1rem var(--margin)}
+.nav a{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--papel); text-decoration:none}
+.nav a em{font-style:normal; color:var(--brote)}
+.nav .volver{color:var(--ceniza)}
+.nav .volver:hover{color:var(--papel)}
+
+.hero{padding:clamp(2rem,6vh,4rem) var(--margin) 3rem; max-width:1280px; margin:0 auto}
+.hero h1{font-size:clamp(2.4rem,6vw,4.6rem); max-width:16ch; margin-top:1.4rem}
+.hero h1 .acc{color:var(--brote)}
+.hero p{color:var(--ceniza); max-width:54ch; margin-top:1.4rem}
+
+.calc{display:grid; grid-template-columns:minmax(0,.44fr) minmax(0,.56fr); gap:1.5rem;
+  max-width:1280px; margin:0 auto; padding:0 var(--margin) 4rem; align-items:start}
+@media(max-width:920px){.calc{grid-template-columns:1fr}}
+
+.panel{background:color-mix(in srgb, var(--basalto-2) 80%, transparent);
+  border:1px solid color-mix(in srgb, var(--ceniza) 28%, transparent); border-radius:2px;
+  padding:clamp(1.6rem,3vw,2.4rem)}
+.panel h2{font-size:1.5rem; margin-bottom:1.6rem}
+
+/* ---- controles ---- */
+.campo{margin-bottom:1.8rem}
+.campo label{display:flex; justify-content:space-between; align-items:baseline;
+  font-family:var(--font-mono); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ceniza); margin-bottom:.7rem}
+.campo label output{color:var(--brote); font-size:.85rem}
+input[type=range]{width:100%; -webkit-appearance:none; appearance:none; height:2px;
+  background:color-mix(in srgb, var(--ceniza) 40%, transparent); outline:none; border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px;
+  border-radius:50%; background:var(--brote); cursor:pointer; border:3px solid var(--basalto);
+  box-shadow:0 0 0 1px var(--brote); transition:transform .15s var(--ease)}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+input[type=range]::-moz-range-thumb{width:14px; height:14px; border-radius:50%;
+  background:var(--brote); cursor:pointer; border:2px solid var(--basalto)}
+.opciones{display:flex; gap:.5rem; flex-wrap:wrap}
+.opciones button{font-family:var(--font-mono); font-size:.66rem; letter-spacing:.1em;
+  text-transform:uppercase; padding:.55rem .9rem; border-radius:2px; cursor:pointer;
+  background:transparent; color:var(--ceniza);
+  border:1px solid color-mix(in srgb, var(--ceniza) 40%, transparent);
+  transition:all .2s var(--ease)}
+.opciones button:hover{color:var(--papel); border-color:var(--papel)}
+.opciones button.on{background:var(--brote); color:var(--basalto); border-color:var(--brote)}
+
+/* ---- resultados ---- */
+.res{display:grid; grid-template-columns:1fr 1fr; gap:1px;
+  background:color-mix(in srgb, var(--ceniza) 22%, transparent);
+  border:1px solid color-mix(in srgb, var(--ceniza) 22%, transparent); border-radius:2px; overflow:hidden}
+@media(max-width:560px){.res{grid-template-columns:1fr}}
+.res>div{background:var(--basalto-2); padding:1.4rem 1.5rem}
+.res .destacado{grid-column:1/-1; background:linear-gradient(135deg, #1c2418, var(--basalto-2))}
+.res .k{font-family:var(--font-mono); font-size:.62rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ceniza); display:block; margin-bottom:.5rem}
+.res .v{font-family:var(--font-display); font-weight:500; font-size:clamp(1.5rem,2.6vw,2.1rem);
+  line-height:1.1; color:var(--papel)}
+.res .v.verde{color:var(--brote)}
+.res .v.azul{color:var(--alisio-300)}
+.res .v.lava{color:var(--lava)}
+.res .sub{font-family:var(--font-mono); font-size:.64rem; color:var(--ceniza);
+  display:block; margin-top:.45rem; letter-spacing:.04em}
+.barra-sub{height:6px; border-radius:3px; margin-top:.8rem; overflow:hidden;
+  background:color-mix(in srgb, var(--ceniza) 25%, transparent); display:flex}
+.barra-sub i{display:block; height:100%; background:var(--brote); transition:width .6s var(--ease)}
+.barra-sub b{display:block; height:100%; background:var(--alisio-500); transition:width .6s var(--ease)}
+
+.nota{margin-top:1.2rem; font-family:var(--font-mono); font-size:.62rem; line-height:1.7;
+  letter-spacing:.04em; color:var(--humo); border-top:1px solid color-mix(in srgb, var(--ceniza) 22%, transparent);
+  padding-top:1rem}
+.nota b{color:var(--ceniza); font-weight:400}
+
+.cta-fila{display:flex; gap:1rem; margin-top:1.6rem; flex-wrap:wrap}
+.btn{display:inline-flex; align-items:center; gap:.6rem; font-family:var(--font-mono);
+  font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; text-decoration:none;
+  padding:.85rem 1.5rem; border-radius:2px; transition:all .22s var(--ease)}
+.btn--brote{background:var(--brote); color:var(--basalto) !important}
+.btn--brote:hover{background:#d6f06a}
+.btn--ghost{border:1px solid color-mix(in srgb, var(--papel) 35%, transparent); color:var(--papel) !important}
+.btn--ghost:hover{background:var(--papel); color:var(--basalto) !important}
+
+.footer{padding:2rem var(--margin); border-top:1px solid color-mix(in srgb, var(--ceniza) 20%, transparent);
+  font-family:var(--font-mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ceniza); display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap}
+.footer em{font-style:normal; color:var(--brote)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../v3/">VERDE VOLCÁN <em>×</em> ALISIO HYDRO</a>
+  <a class="volver" href="../v3/">← Volver a la web</a>
+</nav>
+
+<header class="hero">
+  <p class="eyebrow">Herramienta de estimación · Cifras de proyectos reales</p>
+  <h1>¿Qué puede dar <span class="acc italica">tu finca</span>?</h1>
+  <p>Mueve los controles y obtén una estimación orientativa de inversión, subvención,
+  producción y retorno. El estudio real —con visita, mediciones y números finos— es gratuito.</p>
+</header>
+
+<main class="calc">
+  <!-- ===== ENTRADAS ===== -->
+  <section class="panel">
+    <h2>Tu terreno</h2>
+
+    <div class="campo">
+      <label>Superficie de cultivo <output id="oSup">500 m²</output></label>
+      <input type="range" id="iSup" min="100" max="2000" step="50" value="500">
+    </div>
+
+    <div class="campo">
+      <label>Cultivo principal</label>
+      <div class="opciones" id="iCultivo">
+        <button data-v="lechuga" class="on">Hoja verde</button>
+        <button data-v="fresa">Fresa</button>
+        <button data-v="cherry">Tomate cherry</button>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label>Cubierta</label>
+      <div class="opciones" id="iCubierta">
+        <button data-v="malla" class="on">Malla / exterior</button>
+        <button data-v="invernadero">Invernadero</button>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label>Canal de venta previsto</label>
+      <div class="opciones" id="iCanal">
+        <button data-v="mayorista" class="on">Mayorista</button>
+        <button data-v="directo">Directo / HORECA</button>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label>¿Titular menor de 41 años?</label>
+      <div class="opciones" id="iJoven">
+        <button data-v="no" class="on">No</button>
+        <button data-v="si">Sí</button>
+      </div>
+    </div>
+
+    <p class="nota"><b>Transparencia:</b> rangos construidos sobre el coste real de una
+    instalación NFT de 885 m² en Lanzarote (2026), precios mayoristas de Mercalaspalmas
+    (2025) y las bases publicadas de las ayudas PEPAC. Esto es una orientación,
+    no un presupuesto.</p>
+  </section>
+
+  <!-- ===== RESULTADOS ===== -->
+  <section class="panel">
+    <h2>Estimación</h2>
+    <div class="res">
+      <div class="destacado">
+        <span class="k">Inversión estimada (materiales + montaje llave en mano)</span>
+        <span class="v" id="rCapex">—</span>
+        <span class="sub" id="rCapexM2">—</span>
+        <div class="barra-sub"><i id="rBarraSub" style="width:40%"></i><b id="rBarraIco" style="width:0%"></b></div>
+        <span class="sub" id="rSubTxt">—</span>
+      </div>
+      <div>
+        <span class="k">Inversión neta tras subvención</span>
+        <span class="v verde" id="rNeto">—</span>
+        <span class="sub" id="rNetoSub">si el expediente entra en la convocatoria de octubre</span>
+      </div>
+      <div>
+        <span class="k">Producción estimada</span>
+        <span class="v azul" id="rProd">—</span>
+        <span class="sub" id="rProdSub">—</span>
+      </div>
+      <div>
+        <span class="k">Ingresos brutos / año</span>
+        <span class="v" id="rIngresos">—</span>
+        <span class="sub" id="rIngresosSub">—</span>
+      </div>
+      <div>
+        <span class="k">Costes operativos / año</span>
+        <span class="v lava" id="rOpex">—</span>
+        <span class="sub">energía, nutrientes, agua, mano de obra y acompañamiento técnico</span>
+      </div>
+      <div class="destacado">
+        <span class="k">Margen bruto orientativo / año · retorno de la inversión neta</span>
+        <span class="v" id="rMargen">—</span>
+        <span class="sub" id="rPayback">—</span>
+      </div>
+    </div>
+
+    <p class="nota" id="rJovenNota" style="display:none"><b>Financiación joven agricultor:</b>
+    con menos de 41 años puedes optar a la línea ICO-MAPA-SAECA (préstamo hasta 15 años,
+    3 de carencia, bonificación del 15% del principal, máx. 15.000 €) y a la ayuda de
+    primera instalación de hasta 100.000 € (ventana: febrero 2027).</p>
+
+    <p class="nota"><b>Importante:</b> la subvención de modernización (40% base, hasta 70%)
+    exige expediente aprobado — próxima ventana de solicitud: 1-31 de octubre de 2026 — y
+    que los conceptos estén en los baremos oficiales. La producción y los precios varían con
+    el microclima, la variedad y la operación. Por eso el primer paso es siempre el estudio
+    gratuito de tu finca.</p>
+
+    <div class="cta-fila">
+      <a class="btn btn--brote" id="ctaMail" href="#">Pide el estudio gratuito con estos datos →</a>
+      <a class="btn btn--ghost" href="https://wa.me/34686352000" target="_blank" rel="noopener">WhatsApp directo</a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <span><em>INGENIERÍA</em> — NEROSA HIDROPONÍA</span>
+  <span>ESTIMACIÓN ORIENTATIVA · NO ES OFERTA CONTRACTUAL</span>
+  <span>© 2026 · HECHO EN CANARIAS</span>
+</footer>
+
+<script>
+/* ============================================================
+   Parámetros (rangos conservadores, fuente: MODELO_ECONOMICO_REALISTA.md)
+   ============================================================ */
+const P = {
+  // €/m² llave en mano según tamaño (interpolación lineal 300→1000 m²)
+  capexM2: (m2) => {
+    const chico = [130,140], grande = [90,100];
+    const t = Math.min(Math.max((m2-300)/700, 0), 1);
+    return [chico[0]+(grande[0]-chico[0])*t, chico[1]+(grande[1]-chico[1])*t];
+  },
+  invernaderoExtra: [80,150],          // €/m² adicionales con cubierta completa
+  cultivos: {
+    lechuga:{ prodM2:[100,130], unidad:'uds', precio:{mayorista:[0.25,0.45], directo:[0.90,1.40]},
+      nota:'lechuga/hoja verde · ciclos de 28-35 días' },
+    fresa:{ prodM2:[2.5,4], unidad:'kg', precio:{mayorista:[6.5,9.5], directo:[10,14]},
+      nota:'fresa de medianías · el mayorista mejor pagado' },
+    cherry:{ prodM2:[8,12], unidad:'kg', precio:{mayorista:[2.4,3.4], directo:[4.5,6]},
+      nota:'tomate cherry · fuerte demanda invernal' }
+  },
+  // OPEX €/m²·año
+  energiaM2:[4.5,7], nutrientesM2:[2,6], aguaM2:[1,3],
+  // mano de obra: 1 operario (~28k€ coste empresa) cada ~900 m²; fincas chicas: trabajo propio del titular (50%)
+  laborM2:(m2)=> m2<400 ? [14,18] : [28,34],
+  cuotaAnual: 8400,                     // acompañamiento NEROSA 700 €/mes
+  subvencion:{ base:0.40, joven:0.60 }  // modernización: 40% · +20% joven (tope práctico mostrado 60%)
+};
+
+const fmt = (n) => n>=1000 ? (Math.round(n/100)*100).toLocaleString('es-ES')+' €' : Math.round(n)+' €';
+const fmtR = (a,b) => `${(Math.round(a/100)*100).toLocaleString('es-ES')}–${(Math.round(b/100)*100).toLocaleString('es-ES')} €`;
+
+const est = { sup:500, cultivo:'lechuga', cubierta:'malla', canal:'mayorista', joven:'no' };
+
+function calcular(){
+  const m2 = est.sup;
+  const [c0,c1] = P.capexM2(m2);
+  let capexA = c0*m2, capexB = c1*m2;
+  if(est.cubierta==='invernadero'){ capexA += P.invernaderoExtra[0]*m2; capexB += P.invernaderoExtra[1]*m2; }
+
+  const pSub = est.joven==='si' ? P.subvencion.joven : P.subvencion.base;
+  const netoA = capexA*(1-pSub), netoB = capexB*(1-pSub);
+
+  const c = P.cultivos[est.cultivo];
+  const prodA = c.prodM2[0]*m2, prodB = c.prodM2[1]*m2;
+  const [pr0,pr1] = c.precio[est.canal];
+  const ingA = prodA*pr0, ingB = prodB*pr1;
+
+  const opexA = (P.energiaM2[0]+P.nutrientesM2[0]+P.aguaM2[0]+P.laborM2(m2)[0])*m2 + P.cuotaAnual;
+  const opexB = (P.energiaM2[1]+P.nutrientesM2[1]+P.aguaM2[1]+P.laborM2(m2)[1])*m2 + P.cuotaAnual;
+
+  const margA = ingA - opexB, margB = ingB - opexA;   // cruzado: peor y mejor caso
+  const pbA = margB>0 ? netoA/margB : null;
+  const pbB = margA>0 ? netoB/margA : null;
+
+  // pintar
+  document.getElementById('oSup').textContent = m2.toLocaleString('es-ES')+' m²';
+  document.getElementById('rCapex').textContent = fmtR(capexA, capexB);
+  document.getElementById('rCapexM2').textContent =
+    `≈ ${(capexA/m2).toFixed(0)}–${(capexB/m2).toFixed(0)} €/m² · IGIC no incluido`;
+  document.getElementById('rBarraSub').style.width = (pSub*100)+'%';
+  document.getElementById('rSubTxt').textContent =
+    `■ subvención de modernización potencial: ${(pSub*100).toFixed(0)}% ${est.joven==='si'?'(40% base + 20% joven instalado)':'(base; hasta 70% con incrementos)'}`;
+  document.getElementById('rNeto').textContent = fmtR(netoA, netoB);
+  document.getElementById('rProd').textContent =
+    `${Math.round(prodA).toLocaleString('es-ES')}–${Math.round(prodB).toLocaleString('es-ES')} ${c.unidad}`;
+  document.getElementById('rProdSub').textContent = c.nota;
+  document.getElementById('rIngresos').textContent = fmtR(ingA, ingB);
+  document.getElementById('rIngresosSub').textContent =
+    est.canal==='mayorista'
+      ? `a precio mayorista (${pr0.toFixed(2)}–${pr1.toFixed(2)} €/${c.unidad==='uds'?'ud':'kg'})`
+      : `venta directa/HORECA (${pr0.toFixed(2)}–${pr1.toFixed(2)} €/${c.unidad==='uds'?'ud':'kg'}) — canal a construir`;
+  document.getElementById('rOpex').textContent = fmtR(opexA, opexB);
+  const margTxt = (margA<=0 && margB<=0) ? 'negativo con estos supuestos'
+    : `${fmtR(Math.max(margA,0), Math.max(margB,0))}`;
+  document.getElementById('rMargen').textContent = margTxt;
+  document.getElementById('rMargen').className = 'v ' + (margB>0 ? 'verde' : 'lava');
+  document.getElementById('rPayback').textContent =
+    (pbA && pbB) ? `retorno estimado de la inversión neta: ${pbA.toFixed(1)}–${pbB.toFixed(1)} años`
+    : (pbA ? `retorno estimado: desde ${pbA.toFixed(1)} años (mejor caso)`
+    : 'con canal mayorista y esta escala el margen es ajustado — pide el estudio: el mix de cultivo y canal lo cambia todo');
+  document.getElementById('rJovenNota').style.display = est.joven==='si' ? 'block' : 'none';
+
+  const cuerpo = encodeURIComponent(
+`Hola Néstor, he usado la calculadora y me gustaría el estudio gratuito de mi finca.
+— Superficie: ${m2} m²
+— Cultivo: ${est.cultivo}
+— Cubierta: ${est.cubierta}
+— Canal: ${est.canal}
+— Menor de 41: ${est.joven}
+Mi municipio e isla: `);
+  document.getElementById('ctaMail').href =
+    `mailto:nerosa.ingenieria@gmail.com?subject=${encodeURIComponent('Estudio gratuito de finca — desde la calculadora')}&body=${cuerpo}`;
+}
+
+document.getElementById('iSup').addEventListener('input', e => { est.sup = +e.target.value; calcular(); });
+for(const [id,key] of [['iCultivo','cultivo'],['iCubierta','cubierta'],['iCanal','canal'],['iJoven','joven']]){
+  document.getElementById(id).addEventListener('click', e => {
+    const b = e.target.closest('button'); if(!b) return;
+    est[key] = b.dataset.v;
+    [...e.currentTarget.children].forEach(x => x.classList.toggle('on', x===b));
+    calcular();
+  });
+}
+calcular();
+</script>
+</body>
+</html>
