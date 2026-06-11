@@ -231,6 +231,17 @@ html.js .palabra.is-visible i{transform:none}
 .aud__cta i{font-style:normal; transition:transform .25s var(--ease-alisio)}
 .aud__card:hover .aud__cta i{transform:translateX(5px)}
 
+/* ---- el modelo: 3 pasos ---- */
+.pasos{display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; margin-top:2.2rem}
+@media(max-width:860px){.pasos{grid-template-columns:1fr}}
+.pasoM{border-top:1px solid color-mix(in srgb, var(--ceniza) 35%, transparent); padding-top:1.1rem}
+.pasoM b{font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em; color:var(--lava);
+  font-weight:400; display:block; margin-bottom:.6rem}
+.pasoM h4{font-family:var(--font-display); font-weight:500; font-size:1.3rem; margin-bottom:.45rem}
+.pasoM p{color:var(--ceniza); font-size:.93rem}
+.modelo-nota{margin-top:2rem; font-family:var(--font-mono); font-size:.66rem;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--brote)}
+
 /* ---- etiqueta (banda papel) ---- */
 .banda{position:relative; z-index:1; background:var(--papel); color:var(--basalto);
   padding:clamp(5rem,11vh,8.5rem) var(--margin-page)}
@@ -272,8 +283,9 @@ html.js .palabra.is-visible i{transform:none}
 /* ---- casos ---- */
 .casos__head{max-width:760px; margin-bottom:3rem}
 .casos__head h2{font-size:clamp(2.2rem,5vw,3.8rem); margin-top:1.4rem}
-.casos{display:grid; grid-template-columns:1fr 1fr; gap:1.5rem}
-@media(max-width:860px){.casos{grid-template-columns:1fr}}
+.casos{display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem}
+@media(max-width:1020px){.casos{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.casos{grid-template-columns:1fr}}
 .caso{border:1px solid color-mix(in srgb, var(--ceniza) 30%, transparent); border-radius:2px;
   overflow:hidden; background:color-mix(in srgb, var(--basalto) 80%, transparent);
   backdrop-filter:blur(10px); text-decoration:none; color:inherit;
@@ -387,6 +399,7 @@ html.js .etiqueta.is-visible .etiqueta__specs li:nth-child(5){transition-delay:1
   <a class="nav__brand" href="#top">VERDE VOLCÁN <em>×</em> ALISIO HYDRO</a>
   <div class="nav__links">
     <a href="#circuito">El sistema</a>
+    <a href="#modelo">El modelo</a>
     <a href="#para-quien">Para quién</a>
     <a href="#etiqueta">La etiqueta</a>
     <a href="#casos">Proyectos</a>
@@ -397,8 +410,10 @@ html.js .etiqueta.is-visible .etiqueta__specs li:nth-child(5){transition-delay:1
 <nav class="hitos" aria-label="Fases">
   <a href="#top" class="act" aria-label="Inicio"></a>
   <a href="#circuito" aria-label="El circuito"></a>
+  <a href="#modelo" aria-label="El modelo"></a>
   <a href="#para-quien" aria-label="Para quién"></a>
   <a href="#etiqueta" aria-label="La etiqueta"></a>
+  <a href="#casos" aria-label="Proyectos"></a>
   <a href="#contacto" aria-label="Contacto"></a>
 </nav>
 
@@ -440,7 +455,7 @@ html.js .etiqueta.is-visible .etiqueta__specs li:nth-child(5){transition-delay:1
     <span>Tomate cherry <i>·</i></span><span>Albahaca <i>·</i></span>
     <span>Pak choi <i>·</i></span><span>Producto canario <i>·</i></span>
     <span>−90 % agua <i>·</i></span><span>Cosecha &lt; 24 h <i>·</i></span>
-    <span>Trazabilidad por lote <i>·</i></span><span>Sin barco de por medio <i>·</i></span>
+    <span>Trazabilidad por lote <i>·</i></span><span>Sin barco de por medio <i>·</i></span><span>Montaje + cuota mensual <i>·</i></span>
   </div>
 </div>
 
@@ -463,6 +478,31 @@ html.js .etiqueta.is-visible .etiqueta__specs li:nth-child(5){transition-delay:1
   </div>
 </section>
 
+<!-- ============ EL MODELO ============ -->
+<section class="cap" id="modelo">
+  <div class="cap__inner">
+    <div class="panel reveal" style="max-width:880px">
+      <p class="eyebrow">CÓMO TRABAJAMOS — SIN GRAN INVERSIÓN INICIAL</p>
+      <h2>Montaje reducido, <span class="italica" style="color:var(--brote)">cuota mensual</span>, nadie cultiva solo.</h2>
+      <p class="cuerpo">No vendemos tubos: entregamos un sistema produciendo y nos quedamos
+      a tu lado. El montaje se cobra a precio reducido y el resto va en una cuota mensual
+      que incluye mantenimiento, asesoramiento agronómico y gestión de la producción.</p>
+      <div class="pasos">
+        <div class="pasoM"><b>PASO 01</b><h4>Estudio gratuito</h4>
+          <p>Visitamos tu finca, medimos agua y microclima, y te damos números
+          reales de inversión, producción y plazos. Sin compromiso.</p></div>
+        <div class="pasoM"><b>PASO 02</b><h4>Montaje llave en mano</h4>
+          <p>Ingeniería, instalación y puesta en marcha con contrato y acta de
+          finalización. Tú pones el suelo; nosotros, el sistema.</p></div>
+        <div class="pasoM"><b>PASO 03</b><h4>Cuota con acompañamiento</h4>
+          <p>Mantenimiento, gestión agronómica y soporte continuo por una cuota
+          mensual (mínimo 24 meses). Tu cultivo nunca se queda solo.</p></div>
+      </div>
+      <p class="modelo-nota">+ TRAMITAMOS CONTIGO LAS SUBVENCIONES AGRARIAS DISPONIBLES</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ FASE 2 · PARA QUIÉN ============ -->
 <section class="cap" id="para-quien" style="flex-direction:column; justify-content:center">
   <div class="cap__inner">
@@ -471,7 +511,7 @@ html.js .etiqueta.is-visible .etiqueta__specs li:nth-child(5){transition-delay:1
       <h2 class="reveal" style="--stagger:1">Para el campo, para la tienda, <span class="italica" style="color:var(--brote)">para la mesa</span>.</h2>
     </div>
     <div class="aud">
-      <a class="aud__card reveal" style="--stagger:1" href="mailto:hola@alisiohydro.com?subject=Estudio%20de%20viabilidad%20de%20finca">
+      <a class="aud__card reveal" style="--stagger:1" href="mailto:nerosa.ingenieria@gmail.com?subject=Estudio%20de%20viabilidad%20de%20finca">
         <span class="aud__num">01 — AGRICULTORES Y PROPIETARIOS</span>
         <h3>Tu suelo puede dar <span class="italica">12 cosechas</span> al año.</h3>
         <p>Alisio Hydro estudia tu finca y tu microclima, instala el sistema NFT
@@ -479,12 +519,12 @@ html.js .etiqueta.is-visible .etiqueta__specs li:nth-child(5){transition-delay:1
         ayuda con las subvenciones agrarias.</p>
         <ul class="aud__lista">
           <li>Estudio de viabilidad gratuito</li>
-          <li>Instalación llave en mano</li>
+          <li>Montaje reducido + cuota mensual</li>
           <li>Tramitación de subvenciones</li>
         </ul>
         <span class="aud__cta">Pide el estudio de tu finca <i>→</i></span>
       </a>
-      <a class="aud__card reveal" style="--stagger:2" href="mailto:hola@verdevolcan.com?subject=Suministro%20retail%20%2F%20distribución">
+      <a class="aud__card reveal" style="--stagger:2" href="mailto:nerosa.ingenieria@gmail.com?subject=Suministro%20retail%20%2F%20distribución">
         <span class="aud__num">02 — SUPERMERCADOS Y DISTRIBUIDORES</span>
         <h3>Producto local <span class="italica">estable</span>, todo el año.</h3>
         <p>Verde Volcán suministra hoja verde, tomate y fresa con volumen
@@ -497,7 +537,7 @@ html.js .etiqueta.is-visible .etiqueta__specs li:nth-child(5){transition-delay:1
         </ul>
         <span class="aud__cta">Quiero vender producto canario <i>→</i></span>
       </a>
-      <a class="aud__card reveal" style="--stagger:3" href="mailto:hola@verdevolcan.com?subject=Suministro%20HORECA%20%2F%20distribución%20local">
+      <a class="aud__card reveal" style="--stagger:3" href="mailto:nerosa.ingenieria@gmail.com?subject=Suministro%20HORECA%20%2F%20distribución%20local">
         <span class="aud__num">03 — HORECA Y DISTRIBUCIÓN LOCAL</span>
         <h3>KM 0 real para tus <span class="italica">cartas y hoteles</span>.</h3>
         <p>Para distribuidores de fruta y verdura, hoteles y grupos de
@@ -553,19 +593,27 @@ html.js .etiqueta.is-visible .etiqueta__specs li:nth-child(5){transition-delay:1
     </div>
     <div class="casos">
       <figure class="caso reveal" style="--stagger:1">
-        <div class="media"><img src="../assets/firgas-aereo.jpg" alt="Vista aérea de la instalación NFT de fresa en Firgas, Gran Canaria"></div>
+        <div class="media"><img src="../assets/quintaraiz-lanzarote.jpg" alt="Canales NFT de gran escala recién instalados en Arrecife, Lanzarote"></div>
         <figcaption>
-          <span class="meta"><span>FIRGAS · GRAN CANARIA</span><em>FRESA</em></span>
-          <h3>Fresa de medianías</h3>
-          <p>NFT en exterior aprovechando altitud y humedad del norte de Gran Canaria.</p>
+          <span class="meta"><span>ARRECIFE · LANZAROTE · 2026</span><em>EN MARCHA</em></span>
+          <h3>Gran escala en el árido</h3>
+          <p>NFT exterior de gran escala con estructura galvanizada, recién puesto en marcha para un productor local.</p>
         </figcaption>
       </figure>
       <figure class="caso reveal" style="--stagger:2">
-        <div class="media"><img src="../assets/guinea-lechugas.jpg" alt="Lechugas en canales NFT bajo invernadero, proyecto de Guinea Ecuatorial"></div>
+        <div class="media"><img src="../assets/firgas-aereo.jpg" alt="Vista aérea de la instalación NFT de fresa en Firgas, Gran Canaria"></div>
         <figcaption>
-          <span class="meta"><span>GUINEA ECUATORIAL · 1.000 M² · DESDE 2022</span><em>6 VARIEDADES</em></span>
+          <span class="meta"><span>FIRGAS · GRAN CANARIA · 2024</span><em>FRESA</em></span>
+          <h3>Fresa de medianías</h3>
+          <p>NFT exterior aprovechando la altitud y humedad del norte de Gran Canaria. Sin invernadero.</p>
+        </figcaption>
+      </figure>
+      <figure class="caso reveal" style="--stagger:3">
+        <div class="media"><img src="../assets/guinea-03.jpg" alt="Pasillo central del invernadero de Guinea Ecuatorial con paredes de lechuga a ambos lados"></div>
+        <figcaption>
+          <span class="meta"><span>GUINEA ECUATORIAL · 1.000 M² · 2022</span><em>6 VARIEDADES</em></span>
           <h3>Ingeniería probada en el trópico</h3>
-          <p>Cosecha comercial semanal desde 2023, con eléctrica autónoma. Diseñado y gestionado desde Canarias.</p>
+          <p>Cosecha comercial semanal desde 2023, con eléctrica autónoma. Gestionado desde Canarias.</p>
         </figcaption>
       </figure>
     </div>
@@ -580,16 +628,16 @@ html.js .etiqueta.is-visible .etiqueta__specs li:nth-child(5){transition-delay:1
     <p class="reveal" style="--stagger:2">Elige tu camino y te respondemos con números de
     instalaciones reales, no de catálogo.</p>
     <div class="fin__vias">
-      <a class="via reveal" style="--stagger:2" href="mailto:hola@alisiohydro.com?subject=Estudio%20de%20viabilidad">
+      <a class="via reveal" style="--stagger:2" href="mailto:nerosa.ingenieria@gmail.com?subject=Estudio%20de%20viabilidad">
         <b>Agricultores</b><span>Estudio de tu finca</span><i>→</i></a>
-      <a class="via reveal" style="--stagger:3" href="mailto:hola@verdevolcan.com?subject=Suministro%20retail">
+      <a class="via reveal" style="--stagger:3" href="mailto:nerosa.ingenieria@gmail.com?subject=Suministro%20retail">
         <b>Retail · Distribución</b><span>Suministro con etiqueta de origen</span><i>→</i></a>
-      <a class="via reveal" style="--stagger:4" href="mailto:hola@verdevolcan.com?subject=Suministro%20HORECA">
+      <a class="via reveal" style="--stagger:4" href="mailto:nerosa.ingenieria@gmail.com?subject=Suministro%20HORECA">
         <b>HORECA · Hoteles</b><span>KM 0 para tus cartas</span><i>→</i></a>
     </div>
     <p class="firma reveal" style="--stagger:5">
-      CONTACTO TÉCNICO — <b>Néstor Rodríguez</b> · Ingeniería e instalaciones<br>
-      hola@alisiohydro.com · hola@verdevolcan.com · Islas Canarias
+      CONTACTO TÉCNICO — <b>Néstor Rodríguez Santana</b> · Ingeniero Técnico Agrícola · NEROSA Hidroponía<br>
+      +34 686 35 20 00 · nerosa.ingenieria@gmail.com · Islas Canarias
     </p>
   </div>
 </section>
@@ -599,7 +647,7 @@ html.js .etiqueta.is-visible .etiqueta__specs li:nth-child(5){transition-delay:1
 </div>
 
 <footer class="footer">
-  <span><em>ALISIO HYDRO</em> — INGENIERÍA</span>
+  <span><em>INGENIERÍA</em> — NEROSA HIDROPONÍA</span>
   <span>VERDE VOLCÁN — CULTIVO</span>
   <span>© 2026 · HECHO EN CANARIAS</span>
 </footer>
@@ -871,11 +919,11 @@ try{
      hero: gota dcha · circuito: gota izda · para-quien: hoja arriba-centro
      etiqueta(banda papel): oculta tras banda · casos: hoja→volcán dcha · fin: volcán centro */
   const KF = {
-    p:    [0,    0.16, 0.36, 0.55, 0.78, 1],
-    morph:[0,    0.18, 1.0,  1.0,  1.55, 2.0],
-    x:    [2.3, -2.2,  0,    0,    2.2,  0],
-    y:    [-0.2, 0,    1.25, 1.6,  -0.1, 0.25],
-    s:    [1.15, 0.95, 0.8,  0.8,  0.95, 1.3]
+    p:    [0,    0.14, 0.30, 0.46, 0.60, 0.80, 1],
+    morph:[0,    0.20, 0.55, 1.0,  1.0,  1.55, 2.0],
+    x:    [2.3, -2.2,  2.4,  0,    0,    2.4,  0],
+    y:    [-0.2, 0,    0,    1.35, 1.6,  -0.2, 0.25],
+    s:    [1.15, 0.95, 0.95, 0.8,  0.8,  0.9,  1.3]
   };
   const interp=(arr,p)=>{
     const ps=KF.p;
